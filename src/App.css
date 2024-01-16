@@ -1,3 +1,8 @@
+*{
+  margin: 0;
+  padding: 0px;
+  box-sizing: border-box;
+}
 .App {
   text-align: center;
 }
@@ -35,4 +40,114 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.content {
+  padding: 20px;
+}
+
+
+
+/* #0089BF */
+.sidebar {
+  position: fixed;
+  left: 0; top: 0;
+  width: 250px;
+  height: 100vh;
+  background-color:#072A40 ; 
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.sidebar img {
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.sidebar .menu {
+  /* border: 1px solid red; */
+}
+
+.sidebar .btn-sidebar {
+  display: block;
+  width: 100%;
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 5px 10px;
+}
+.sidebar .btn-sidebar:hover {
+  color: #0089BF;
+}
+
+
+/* ========= INFLATABLES PAGE ========= */
+.inflatables {
+  display: grid;
+  grid-template-columns: 250px auto;
+}
+.inflatables .top-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.inflatables .top-nav h2 {
+  color: #072A40;
+}
+.inflatables .top-nav button {
+  padding: 0 15px;
+  color: white;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background-color: #0089BF;
+}
+.inflatables .top-nav button:hover {
+  background-color: white;
+  color: #0089BF;
+  border: 1px solid #0089BF;
+}
+
+.inflatables .row {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  height: 150px;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  transition: 0.5s;
+}
+.inflatables .row:hover {
+  border: 1px solid #0089BF;
+}
+.inflatables .row .img-container {
+  display: flex;
+  align-items: center;
+}
+.inflatables .row img {
+  height: 130px;
+}
+.inflatables .row .details-container {
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+}
+.inflatables .row #name-price{
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: bold;
+}
+.inflatables .row #dimentions {
+  display: flex;
+  justify-content: space-between;
+}
+.inflatables .row #dimentions .dimention {
+  display: flex;
+  gap: 5px;
 }
