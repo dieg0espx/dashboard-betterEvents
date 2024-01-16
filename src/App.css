@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 *{
   margin: 0;
   padding: 0px;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
+
 .App {
   text-align: center;
 }
@@ -44,6 +48,13 @@
 
 .content {
   padding: 20px;
+}
+.overlay {
+  position: fixed;
+  left: 0; top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 
@@ -140,14 +151,94 @@
 .inflatables .row #name-price{
   display: flex;
   justify-content: space-between;
-  font-size: 20px;
-  font-weight: bold;
+}
+.inflatables .row #name {
+  font-weight: 600;
+}
+.inflatables .row #price {
+  text-align: center;
+  font-size: 15px;
+  line-height: 25px;
+  color: white;
+  border-radius: 2px;
+  background-color: #0089BF;
+  width: 100px;
 }
 .inflatables .row #dimentions {
   display: flex;
   justify-content: space-between;
 }
 .inflatables .row #dimentions .dimention {
+  display: flex;
+  gap: 5px;
+  color: gray;
+}
+
+.popup-newInflatable {
+  position: fixed;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 500px;
+  padding: 20px 5%;
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+.popup-newInflatable h2 {
+  font-weight: 500;
+  color: #072A40;
+}
+.popup-newInflatable form {
+  width: 100%;
+}
+.popup-newInflatable form input,
+.popup-newInflatable form select{
+  display: block;
+  width: 100%;
+  height: 40px;
+  margin-bottom: 5px;
+  padding-left: 10px;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+}
+.popup-newInflatable form select{
+  color: gray;
+}
+.popup-newInflatable form textarea {
+  display: block;
+  width: 100%;
+  height: 60px;
+  margin-bottom: 5px;
+  padding-left: 10px;
+  padding-top: 5px;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  resize: none;
+  outline: none;
+}
+.popup-newInflatable form button {
+  display: block;
+  width: 100%;
+  height: 40px;
+  border: 1px solid transparent;
+  background-color: #0089BF;
+  color: white;
+  border-radius: 5px;
+  font-size: 15px;
+  margin-top: 20px;
+  transition: 0.5s;
+}
+.popup-newInflatable form button:hover {
+  background-color: white;
+  color: #0089BF;
+  border: 1px solid #0089BF;
+} 
+.popup-newInflatable .cols {
   display: flex;
   gap: 5px;
 }

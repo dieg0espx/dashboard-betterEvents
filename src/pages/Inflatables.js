@@ -4,10 +4,12 @@ import { getFirestore } from 'firebase/firestore';
 import { collection, getDocs } from "firebase/firestore";
 import app from '../Firebase';
 import { Link } from "react-router-dom";
+import NewInflatable from '../components/NewInflatable';
 
 function Inflatables() {
   const db = getFirestore(app);
   const [inflatables, setInflatables] = useState([])
+  const [showPopup, setShowPopup] = useState(true)
 
   async function getInflatables() {
     let arrayInflatables = [];
@@ -40,7 +42,7 @@ function Inflatables() {
       <div className='content'>
           <div className='top-nav'>
             <h2> All Inflatables</h2>
-            <button> + New Inflatable </button>
+            <button onClick={()=>setShowPopup(true)}> + New Inflatable </button>
           </div>
           <div className='list'>
             {inflatables
@@ -53,7 +55,7 @@ function Inflatables() {
                   <div className='details-container'>
                     <div id="name-price">
                       <p id="name">{inflatable.name}</p>
-                      <p id="price">${inflatable.price}</p>
+                      <p id="price">${inflatable.price} USD</p>
                     </div>
                     <p id="description"> {inflatable.description}</p>
                     <div id="dimentions">
@@ -74,6 +76,10 @@ function Inflatables() {
               </div>
             ))}
           </div>
+      </div>
+      <div style={{display: showPopup ? "block":"none"}}>
+        <div className='overlay' onClick={()=>setShowPopup(false)}></div>
+        <NewInflatable />
       </div>
     </div>
   )
