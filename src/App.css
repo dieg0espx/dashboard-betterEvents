@@ -49,6 +49,7 @@
 .content {
   padding: 20px;
 }
+
 .overlay {
   position: fixed;
   left: 0; top: 0;
@@ -140,6 +141,8 @@
 }
 .inflatables .row img {
   height: 130px;
+  width: 130px;
+  object-fit:contain;
 }
 .inflatables .row .details-container {
   height: 130px;
@@ -242,3 +245,6 @@
   display: flex;
   gap: 5px;
 }
+
+
+

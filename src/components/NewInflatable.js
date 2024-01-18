@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import Inflatables from '../pages/Inflatables';
+import { getFirestore } from 'firebase/firestore';
+import { collection, getDocs, addDoc } from "firebase/firestore";
+import app from '../Firebase';
 
 function NewInflatable() {
+    const db = getFirestore(app);
     const [newInflatable, setNewInflatable] = useState({
         name:'',
-        description:'',
+        description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, erat in malesuada aliquam, est erat faucibus purus, eget viverra nulla sem vitae neque. Quisque id sodales libero. In nec enim nisi.',
         category:'',
-        price:'',
-        capacity:'',
+        price:'123',
+        capacity:'10',
         width:'',
         height:'',
         image:''    
@@ -21,10 +25,22 @@ function NewInflatable() {
         });
     };
 
-    function createNewInflatable(e){
+    async function createNewInflatable(e){
         e.preventDefault();
-        console.log(newInflatable);
+        await addDoc(collection(db, "inflatables"),newInflatable)
+        alert('New Inflatable added successfully !')
+        setNewInflatable({    
+            name:'',
+            description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, erat in malesuada aliquam, est erat faucibus purus, eget viverra nulla sem vitae neque. Quisque id sodales libero. In nec enim nisi.',
+            category:'',
+            price:'123',
+            capacity:'10',
+            width:'',
+            height:'',
+            image:''   
+        })
     }
+
 
   return (
     <div className='popup-newInflatable'>
@@ -44,7 +60,7 @@ function NewInflatable() {
                 <option value={'extras'}> Extras </option>
             </select>
             <div className='cols'>
-                <input type="number" name="width" value={newInflatable.width} onChange={handleInputChange} placeholder='Width'/>
+                <input type="text" name="width" value={newInflatable.width} onChange={handleInputChange} placeholder='Width'/>
                 <input type="number" name="height" value={newInflatable.height} onChange={handleInputChange} placeholder='Height'/>
                 <input type="number" name="capacity" value={newInflatable.capacity} onChange={handleInputChange} placeholder='Capacity'/>
             </div>   

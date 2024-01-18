@@ -9,7 +9,7 @@ import NewInflatable from '../components/NewInflatable';
 function Inflatables() {
   const db = getFirestore(app);
   const [inflatables, setInflatables] = useState([])
-  const [showPopup, setShowPopup] = useState(true)
+  const [showPopup, setShowPopup] = useState(false)
 
   async function getInflatables() {
     let arrayInflatables = [];
@@ -26,6 +26,7 @@ function Inflatables() {
         width: doc.data().width
       });
     });
+    arrayInflatables.sort((a, b) => a.name.localeCompare(b.name));
     setInflatables(arrayInflatables);
   }
 
@@ -39,15 +40,14 @@ function Inflatables() {
       <div>
         <Sidebar />
       </div>
+      
       <div className='content'>
           <div className='top-nav'>
             <h2> All Inflatables</h2>
             <button onClick={()=>setShowPopup(true)}> + New Inflatable </button>
           </div>
           <div className='list'>
-            {inflatables
-              .sort((a, b) => b.name.localeCompare(a.name)) // Sort by name
-              .map((inflatable) => (
+            {inflatables.map((inflatable) => (
               <div className='row' key={inflatable.id}>
                   <div className='img-container'>
                     <img src={inflatable.image} />
@@ -77,6 +77,8 @@ function Inflatables() {
             ))}
           </div>
       </div>
+
+
       <div style={{display: showPopup ? "block":"none"}}>
         <div className='overlay' onClick={()=>setShowPopup(false)}></div>
         <NewInflatable />
