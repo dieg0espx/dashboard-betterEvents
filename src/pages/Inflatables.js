@@ -5,11 +5,13 @@ import { collection, getDocs } from "firebase/firestore";
 import app from '../Firebase';
 import { Link } from "react-router-dom";
 import NewInflatable from '../components/NewInflatable';
+import UpdateInflatable from '../components/UpdateInflatable';
 
 function Inflatables() {
   const db = getFirestore(app);
   const [inflatables, setInflatables] = useState([])
-  const [showPopup, setShowPopup] = useState(false)
+  const [popup, setPopup] = useState(0)
+  const [currentInflatable, setCurrentInflatable] = useState([])
 
   async function getInflatables() {
     let arrayInflatables = [];
@@ -19,6 +21,7 @@ function Inflatables() {
         id: doc.id,
         capacity: doc.data().capacity,
         description: doc.data().description,
+        category: doc.data().category,
         height: doc.data().height,
         image: doc.data().image,
         name: doc.data().name,
@@ -35,6 +38,17 @@ function Inflatables() {
   }, []);
 
 
+  // useEffect(()=>{
+  //   if(currentInflatable.length !== 0){
+      
+  //   }
+  // },[currentInflatable])
+
+  function openPopup(id){
+    setCurrentInflatable(inflatables[id])
+    setPopup(2)
+  }
+
   return (
     <div className='inflatables'>
       <div>
@@ -44,11 +58,11 @@ function Inflatables() {
       <div className='content'>
           <div className='top-nav'>
             <h2> All Inflatables</h2>
-            <button onClick={()=>setShowPopup(true)}> + New Inflatable </button>
+            <button onClick={()=>setPopup(1)}> + New Inflatable </button>
           </div>
           <div className='list'>
-            {inflatables.map((inflatable) => (
-              <div className='row' key={inflatable.id}>
+            {inflatables.map((inflatable, i) => (
+              <div className='row' key={inflatable.id} onClick={()=>openPopup(i)}>
                   <div className='img-container'>
                     <img src={inflatable.image} />
                   </div>
@@ -79,9 +93,13 @@ function Inflatables() {
       </div>
 
 
-      <div style={{display: showPopup ? "block":"none"}}>
-        <div className='overlay' onClick={()=>setShowPopup(false)}></div>
+      <div style={{display: popup == 1 ? "block":"none"}}>
+        <div className='overlay' onClick={()=>setPopup(0)}></div>
         <NewInflatable />
+      </div>
+      <div style={{display: popup == 2 ? "block":"none"}}>
+        <div className='overlay' onClick={()=>setPopup(0)}></div>
+        <UpdateInflatable data={currentInflatable} popup={(popup)=>setPopup(popup)}/>
       </div>
     </div>
   )
