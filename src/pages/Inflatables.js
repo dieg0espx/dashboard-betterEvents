@@ -41,6 +41,10 @@ function Inflatables() {
     setCurrentInflatable(inflatables[id])
     setPopup(2)
   }
+  function closePopup(){
+    setPopup(0)
+    getInflatables()
+  }
 
   useEffect(()=>{
     if(popup == 1 || popup == 2){
@@ -100,7 +104,7 @@ function Inflatables() {
       </div>
       <div style={{display: popup == 2 ? "block":"none"}}>
         <div className='overlay' onClick={()=>setPopup(0)}></div>
-        <UpdateInflatable data={currentInflatable} popup={(popup)=>setPopup(popup)}/>
+        <UpdateInflatable data={currentInflatable} popup={()=>closePopup()}/>
       </div>
     </div>
   )

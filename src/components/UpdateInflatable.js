@@ -55,7 +55,7 @@ function UpdateInflatable(props) {
                 <input type="text" name="image" value={newInflatable.image} onChange={handleInputChange} placeholder='Images (Separated by / )'/>
             </div>         
             
-            <button type='submit' onClick={()=>props.popup(0)}> Update Inflatable </button>
+            <button type='submit' onClick={()=>props.popup()}> Update Inflatable </button>
         </form>
     </div>
   )
