@@ -37,17 +37,18 @@ function Inflatables() {
     getInflatables();
   }, []);
 
-
-  // useEffect(()=>{
-  //   if(currentInflatable.length !== 0){
-      
-  //   }
-  // },[currentInflatable])
-
   function openPopup(id){
     setCurrentInflatable(inflatables[id])
     setPopup(2)
   }
+
+  useEffect(()=>{
+    if(popup == 1 || popup == 2){
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  },[popup])
 
   return (
     <div className='inflatables'>
