@@ -5,11 +5,13 @@ import { collection, getDocs } from "firebase/firestore";
 import app from '../Firebase';
 import { Link } from "react-router-dom";
 import NewInflatable from '../components/NewInflatable';
+import UpdateInflatable from '../components/UpdateInflatable';
 
 function Inflatables() {
   const db = getFirestore(app);
   const [inflatables, setInflatables] = useState([])
-  const [showPopup, setShowPopup] = useState(true)
+  const [popup, setPopup] = useState(0)
+  const [currentInflatable, setCurrentInflatable] = useState([])
 
   async function getInflatables() {
     let arrayInflatables = [];
@@ -19,6 +21,7 @@ function Inflatables() {
         id: doc.id,
         capacity: doc.data().capacity,
         description: doc.data().description,
+        category: doc.data().category,
         height: doc.data().height,
         image: doc.data().image,
         name: doc.data().name,
@@ -26,6 +29,7 @@ function Inflatables() {
         width: doc.data().width
       });
     });
+    arrayInflatables.sort((a, b) => a.name.localeCompare(b.name));
     setInflatables(arrayInflatables);
   }
 
@@ -33,22 +37,37 @@ function Inflatables() {
     getInflatables();
   }, []);
 
+  function openPopup(id){
+    setCurrentInflatable(inflatables[id])
+    setPopup(2)
+  }
+  function closePopup(){
+    setPopup(0)
+    getInflatables()
+  }
+
+  useEffect(()=>{
+    if(popup == 1 || popup == 2){
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  },[popup])
 
   return (
     <div className='inflatables'>
       <div>
         <Sidebar />
       </div>
+      
       <div className='content'>
           <div className='top-nav'>
             <h2> All Inflatables</h2>
-            <button onClick={()=>setShowPopup(true)}> + New Inflatable </button>
+            <button onClick={()=>setPopup(1)}> + New Inflatable </button>
           </div>
           <div className='list'>
-            {inflatables
-              .sort((a, b) => b.name.localeCompare(a.name)) // Sort by name
-              .map((inflatable) => (
-              <div className='row' key={inflatable.id}>
+            {inflatables.map((inflatable, i) => (
+              <div className='row' key={inflatable.id} onClick={()=>openPopup(i)}>
                   <div className='img-container'>
                     <img src={inflatable.image} />
                   </div>
@@ -77,9 +96,15 @@ function Inflatables() {
             ))}
           </div>
       </div>
-      <div style={{display: showPopup ? "block":"none"}}>
-        <div className='overlay' onClick={()=>setShowPopup(false)}></div>
+
+
+      <div style={{display: popup == 1 ? "block":"none"}}>
+        <div className='overlay' onClick={()=>setPopup(0)}></div>
         <NewInflatable />
+      </div>
+      <div style={{display: popup == 2 ? "block":"none"}}>
+        <div className='overlay' onClick={()=>setPopup(0)}></div>
+        <UpdateInflatable data={currentInflatable} popup={()=>closePopup()}/>
       </div>
     </div>
   )
