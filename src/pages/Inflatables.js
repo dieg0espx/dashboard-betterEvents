@@ -12,6 +12,7 @@ function Inflatables() {
   const [inflatables, setInflatables] = useState([])
   const [popup, setPopup] = useState(0)
   const [currentInflatable, setCurrentInflatable] = useState([])
+  const [finding, setFinding] = useState('')
 
   async function getInflatables() {
     let arrayInflatables = [];
@@ -37,10 +38,16 @@ function Inflatables() {
     getInflatables();
   }, []);
 
-  function openPopup(id){
-    setCurrentInflatable(inflatables[id])
+  function openPopup(inflatableID){
+    for(let i = 0; i < inflatables.length; i ++){
+      if(inflatables[i].id == inflatableID){
+        setCurrentInflatable(inflatables[i])
+        break;
+      }
+    }
     setPopup(2)
   }
+
   function closePopup(){
     setPopup(0)
     getInflatables()
@@ -63,11 +70,16 @@ function Inflatables() {
       <div className='content'>
           <div className='top-nav'>
             <h2> All Inflatables</h2>
-            <button onClick={()=>setPopup(1)}> + New Inflatable </button>
+            <div>
+              <input type='text' onChange={(e)=>setFinding(e.target.value)} placeholder='Inflatable Name'/>
+              <button onClick={()=>setPopup(1)}> + New Inflatable </button>
+            </div>
           </div>
           <div className='list'>
-            {inflatables.map((inflatable, i) => (
-              <div className='row' key={inflatable.id} onClick={()=>openPopup(i)}>
+          {inflatables
+            .filter((inflatable) => inflatable.name.toLowerCase().includes(finding))
+            .map((inflatable, i) => (
+              <div className='row' key={inflatable.id} onClick={()=>openPopup(inflatable.id)}>
                   <div className='img-container'>
                     <img src={inflatable.image} />
                   </div>

@@ -120,7 +120,7 @@
 
 .inflatables .row {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 130px auto;
   gap: 10px;
   margin-bottom: 10px;
   padding: 10px;
@@ -136,10 +136,12 @@
 }
 .inflatables .row .img-container {
   display: flex;
-  align-items: center;
+  width: 130px;
 }
 .inflatables .row img {
   height: 130px;
+  width: 100%;
+  object-fit: contain;
 }
 .inflatables .row .details-container {
   height: 130px;
