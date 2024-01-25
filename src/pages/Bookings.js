@@ -77,7 +77,7 @@ function Bookings() {
           {bookings.map((booking) => (
             <div className='row' key={booking.id}>
               <div className='img-container'>
-                    <img src={booking.inflatableImage} />
+                    <img src={booking.inflatableImage} class="row-image"/>
                   </div>
               <div className='information-container'>
                 <div className='bookingDates'>
