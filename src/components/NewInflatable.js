@@ -41,7 +41,6 @@ function NewInflatable() {
         })
     }
 
-
   return (
     <div className='popup-newInflatable'>
         <h2> Add New Inflatable </h2>
