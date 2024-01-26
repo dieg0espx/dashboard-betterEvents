@@ -72,6 +72,7 @@ function Inflatables() {
             <h2> All Inflatables</h2>
             <div>
               <input type='text' onChange={(e)=>setFinding(e.target.value)} placeholder='Inflatable Name'/>
+              <i className="bi bi-search iconSearch"></i>
               <button onClick={()=>setPopup(1)}> + New Inflatable </button>
             </div>
           </div>

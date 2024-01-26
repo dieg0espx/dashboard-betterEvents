@@ -8,10 +8,10 @@ function NewInflatable() {
     const db = getFirestore(app);
     const [newInflatable, setNewInflatable] = useState({
         name:'',
-        description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, erat in malesuada aliquam, est erat faucibus purus, eget viverra nulla sem vitae neque. Quisque id sodales libero. In nec enim nisi.',
+        description:'',
         category:'',
-        price:'123',
-        capacity:'10',
+        price:'',
+        capacity:'',
         width:'',
         height:'',
         image:''    
@@ -31,10 +31,10 @@ function NewInflatable() {
         alert('New Inflatable added successfully !')
         setNewInflatable({    
             name:'',
-            description:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt, erat in malesuada aliquam, est erat faucibus purus, eget viverra nulla sem vitae neque. Quisque id sodales libero. In nec enim nisi.',
+            description:'',
             category:'',
-            price:'123',
-            capacity:'10',
+            price:'',
+            capacity:'',
             width:'',
             height:'',
             image:''   
@@ -65,7 +65,7 @@ function NewInflatable() {
                 <input type="number" name="capacity" value={newInflatable.capacity} onChange={handleInputChange} placeholder='Capacity'/>
             </div>   
             <div className='cols'>
-                <input type="text" name="image" value={newInflatable.image} onChange={handleInputChange} placeholder='Images (Separated by / )'/>
+                <input type="text" name="image" value={newInflatable.image} onChange={handleInputChange} placeholder='Image URL'/>
             </div>         
             
             <button type='submit'> Add New Inflatable </button>
