@@ -63,7 +63,7 @@ function Inflatables() {
     }
   },[popup])
 
-  function updateInflatables(){
+  async function updateInflatables(){
     let arrayIDs = []
     const q = query(collection(db, "inflatables"))
     const querySnapshot = await getDocs(q);
