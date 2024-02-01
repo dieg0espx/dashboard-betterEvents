@@ -61,7 +61,6 @@ function NewInflatable() {
             <div className='cols'>
                 <input type="text" name="width" value={newInflatable.width} onChange={handleInputChange} placeholder='Width'/>
                 <input type="number" name="height" value={newInflatable.height} onChange={handleInputChange} placeholder='Height'/>
-                <input type="number" name="capacity" value={newInflatable.capacity} onChange={handleInputChange} placeholder='Capacity'/>
                 <select name='wetDry' value={newInflatable.wetDry} onChange={handleInputChange}>
                     <option selected> Select an Option  </option>
                     <option> Dry </option>
