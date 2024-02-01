@@ -50,9 +50,8 @@ function UpdateInflatable(props) {
                 <input type="text" name="width" value={newInflatable.width} onChange={handleInputChange} placeholder='Width'/>
                 <input type="number" name="height" value={newInflatable.height} onChange={handleInputChange} placeholder='Height'/>
                 <select name='wetDry' value={newInflatable.wetDry} onChange={handleInputChange}>
-                    <option selected> Select an Option  </option>
-                    <option> Dry </option>
-                    <option> Wet </option>
+                    <option value={'Dry'}> Dry </option>
+                    <option value={'Wet'}> Wet </option>
                 </select>
             </div>   
             <div className='cols'>
