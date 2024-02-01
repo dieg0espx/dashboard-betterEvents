@@ -6,7 +6,8 @@ import app from '../Firebase';
 import { Link } from "react-router-dom";
 import NewInflatable from '../components/NewInflatable';
 import UpdateInflatable from '../components/UpdateInflatable';
-import { doc, setDoc } from "firebase/firestore"; 
+import { doc, setDoc, collection, query, where, getDocs  } from "firebase/firestore"; 
+
 
 function Inflatables() {
   const db = getFirestore(app);
