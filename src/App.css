@@ -181,8 +181,7 @@
   width: 100%;
   height: 200px;
   margin-bottom: 5px;
-  padding-left: 10px;
-  padding-top: 5px;
+  padding: 10px;
   border-radius: 5px;
   border: 1px solid lightgray;
   resize: none;
@@ -208,6 +207,24 @@
 .popup-newInflatable .cols {
   display: flex;
   gap: 5px;
+}
+.popup-newInflatable form #price {
+  margin-left: -15px;
+  padding-left: 25px;
+  margin-right: -35px;
+}
+.popup-newInflatable #dollarSign {
+  position: relative;
+  left: 10px;
+  top: 9px;
+  font-size: 15px;
+  color: gray;
+}
+.popup-newInflatable #currency {
+  position: relative;
+  top: 8px;
+  left: -20px;
+  color: gray;
 }
 
 
