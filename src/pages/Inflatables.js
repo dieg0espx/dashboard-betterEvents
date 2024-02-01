@@ -6,6 +6,7 @@ import app from '../Firebase';
 import { Link } from "react-router-dom";
 import NewInflatable from '../components/NewInflatable';
 import UpdateInflatable from '../components/UpdateInflatable';
+import { doc, setDoc } from "firebase/firestore"; 
 
 function Inflatables() {
   const db = getFirestore(app);
@@ -36,6 +37,7 @@ function Inflatables() {
 
   useEffect(() => {
     getInflatables();
+    updateInflatables()
   }, []);
 
   function openPopup(inflatableID){
@@ -60,6 +62,20 @@ function Inflatables() {
       document.body.style.overflow = 'auto';
     }
   },[popup])
+
+  function updateInflatables(){
+    let arrayIDs = ['c8ndmy1lGJu6AACDaFCl']
+    // const q = query(collection(db, "inflatables"))
+    // const querySnapshot = await getDocs(q);
+    //   querySnapshot.forEach((doc) => {
+    //     arrayIDs.push(doc.id)
+    //   });
+    for(let i = 0; i < arrayIDs.length; i ++ ){
+      const inflatableRef= doc(db, 'inflatables', arrayIDs[i]);
+      setDoc(inflatableRef, {wetDry:'Dry'});
+    }
+  }
+
 
   return (
     <div className='inflatables'>
