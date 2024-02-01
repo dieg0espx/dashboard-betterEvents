@@ -68,7 +68,7 @@ function Inflatables() {
     const q = query(collection(db, "inflatables"))
     const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        if(doc.id = "oiq8b58V1DnbABpheeR7"){
+        if(doc.id == "oiq8b58V1DnbABpheeR7"){
           arrayIDs.push({
             id:doc.id,
             capacity: doc.data().capacity, 
