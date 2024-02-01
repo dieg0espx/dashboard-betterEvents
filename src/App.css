@@ -6,7 +6,9 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
-
+*::-webkit-scrollbar {
+  display: none;
+}
 .App {
   text-align: center;
 }
@@ -58,13 +60,11 @@
   background-color: rgba(0, 0, 0, 0.35);
 }
 
-
-
 /* #0089BF */
 .sidebar {
   position: fixed;
   left: 0; top: 0;
-  width: 250px;
+  width: 200px;
   height: 100vh;
   background-color:#072A40 ; 
   padding: 20px;
@@ -96,7 +96,7 @@
 /* ========= INFLATABLES PAGE ========= */
 .inflatables {
   display: grid;
-  grid-template-columns: 250px auto;
+  grid-template-columns: 200px auto;
 }
 .inflatables .top-nav {
   display: flex;
@@ -133,71 +133,13 @@
   position: relative;
   left: -20px;
 }
-.inflatables .row {
+
+.inflatables .list {
   display: grid;
-  grid-template-columns: 130px auto;
-  gap: 10px;
-  margin-bottom: 10px;
-  padding: 0 10px ;
-  height: 190px;
-  align-items: center;
-  border-radius: 5px;
-  border: 1px solid transparent;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-  transition: 0.5s;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 5px; /* Adjust the gap as needed */
 }
-.inflatables .row:hover {
-  border: 1px solid #0089BF;
-}
-.inflatables .row .img-container {
-  display: flex;
-  width: 130px;
-}
-.inflatables .row img {
-  height: 190px;
-  width: 100%;
-  object-fit: contain;
-}
-.inflatables .row .details-container {
-  height: 180px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 10px;
-}
-.inflatables .row #name-price{
-  display: flex;
-  justify-content: space-between;
-}
-.inflatables .row #name {
-  font-weight: 600;
-}
-.inflatables .row #price {
-  text-align: center;
-  font-size: 15px;
-  line-height: 25px;
-  color: white;
-  border-radius: 2px;
-  background-color: #0089BF;
-  width: 100px;
-}
-.inflatables .row #description {
-  width: 100%;
-  font-size: 13px;
-  max-height: 120px;
-  overflow: hidden;
-  white-space: normal;
-  margin: 5px;
-}
-.inflatables .row #dimentions {
-  display: flex;
-  justify-content: space-between;
-}
-.inflatables .row #dimentions .dimention {
-  display: flex;
-  gap: 5px;
-  color: gray;
-}
+
 
 .popup-newInflatable {
   position: fixed;
@@ -267,6 +209,84 @@
   display: flex;
   gap: 5px;
 }
+
+
+
+.row {
+  display: inline-block;
+  width: 300px;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border: 2px solid lightgray;
+  margin: 10px;
+  white-space: normal;
+}
+.row:hover {
+  border: 2px solid #0089BF;
+}
+
+.row img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  margin-bottom: 10px;
+  z-index: 2;
+}
+.row #name-price{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.row #name {
+  color: #072A40;
+  font-weight: 600;
+  font-size: 18px;
+  max-width: 75%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow:clip;
+}
+.row #price {
+  background-color: #0089BF;
+  color: white;
+  padding: 0 10px;
+  border-radius: 5px;
+}
+.row #description {
+  font-size: 12px;
+  text-align: left;
+  max-width: 300px;
+  height: 100px;
+  overflow: scroll;
+  color: gray;
+}
+.row #dimentions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+  margin-top: 10px;
+}
+.row .dimention {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  text-align: center;
+  color: gray;
+}
+.row .dimention .value {
+  font-size: 14px;
+  margin: 0;
+}
+.row .dimention .type {
+  font-size: 15px;
+  color: #0089BF;
+  font-weight: bold;
+  margin-top: -5px;
+  margin-bottom: 0px;
+}
+
+
 
 /* ========= BOOKINGS PAGE ========= */
 .bookings {
