@@ -20,7 +20,7 @@ function Inflatables() {
     querySnapshot.forEach((doc) => {
       arrayInflatables.push({
         id: doc.id,
-        capacity: doc.data().capacity,
+        wetDry: doc.data().wetDry, 
         description: doc.data().description,
         category: doc.data().category,
         height: doc.data().height,
@@ -100,8 +100,8 @@ function Inflatables() {
                         <p className="type"> Height</p>
                       </div>
                       <div className="dimention">          
-                        <p className="value"> {inflatable.capacity} </p>
-                        <p className="type"> Kids</p>
+                        <p className="value"> {inflatable.wetDry} </p>
+                        <p className="type"> </p>
                       </div>
                     </div>
                   </div>
