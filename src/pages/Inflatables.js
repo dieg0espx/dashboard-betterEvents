@@ -94,7 +94,7 @@ function Inflatables() {
         name: arrayIDs[i].name,
         price: arrayIDs[i].price,
         wetDry: 'Dry',
-        width: arrayIDs[i].widht       
+        width: arrayIDs[i].width       
       });
     }
   }
