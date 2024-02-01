@@ -11,7 +11,7 @@ function NewInflatable() {
         description:'',
         category:'',
         price:'',
-        werDry:'',
+        wetDry:'',
         width:'',
         height:'',
         image:''    
