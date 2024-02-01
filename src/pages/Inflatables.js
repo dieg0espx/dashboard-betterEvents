@@ -21,7 +21,7 @@ function Inflatables() {
     querySnapshot.forEach((doc) => {
       arrayInflatables.push({
         id: doc.id,
-        wetDry: doc.data().wetDry, 
+        wetDry: doc.data().wetDry,  
         description: doc.data().description,
         category: doc.data().category,
         height: doc.data().height,
