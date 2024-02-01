@@ -37,7 +37,6 @@ function Inflatables() {
 
   useEffect(() => {
     getInflatables();
-    updateInflatables()
   }, []);
 
   function openPopup(inflatableID){
@@ -63,43 +62,7 @@ function Inflatables() {
     }
   },[popup])
 
-  async function updateInflatables(){
-    let arrayIDs = []
-    const q = query(collection(db, "inflatables"))
-    const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        if(doc.id == "oiq8b58V1DnbABpheeR7"){
-          arrayIDs.push({
-            id:doc.id,
-            capacity: doc.data().capacity, 
-            category:doc.data().category, 
-            description:doc.data().description, 
-            height:doc.data().height, 
-            image:doc.data().image, 
-            name:doc.data().name, 
-            price:doc.data().price, 
-            wetDry:doc.data().wetDry, 
-            width:doc.data().width
-          })
-      }
-      });
-    for(let i = 0; i < arrayIDs.length; i ++ ){
-      const inflatableRef= doc(db, 'inflatables', arrayIDs[i].id);
-      setDoc(inflatableRef, {
-        capacity: arrayIDs[i].capacity, 
-        category: arrayIDs[i].category, 
-        description: arrayIDs[i].description,
-        height: arrayIDs[i].height,
-        image: arrayIDs[i].image,
-        name: arrayIDs[i].name,
-        price: arrayIDs[i].price,
-        wetDry: 'Dry',
-        width: arrayIDs[i].width       
-      });
-    }
-  }
-
-
+ 
   return (
     <div className='inflatables'>
       <div>
