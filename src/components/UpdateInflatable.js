@@ -26,7 +26,7 @@ function UpdateInflatable(props) {
 
     useEffect(()=>{
         console.log(props.data.id);
-        setNewInflatable({ name:props.data.name, description:props.data.description, category:props.data.category, price:props.data.price, capacity:props.data.wetDry, width:props.data.width, height:props.data.height, image:props.data.image})
+        setNewInflatable({ name:props.data.name, description:props.data.description, category:props.data.category, price:props.data.price, wetDry:props.data.wetDry, width:props.data.width, height:props.data.height, image:props.data.image})
     },[props.data])
 
     
