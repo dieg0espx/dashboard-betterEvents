@@ -171,6 +171,17 @@
 .popup-newInflatable .counter p{
   text-align: center;
 }
+.popup-newInflatable .counter button {
+  background-color: #0089BF;
+  color: white;
+  width: 35px;
+  height: 30px;
+  border: none;
+  margin: auto;
+  line-height: 33px;
+  font-size: 25px;
+  border-radius: 5px;
+}
 .popup-newInflatable h2 {
   font-weight: 500;
   color: #072A40;
