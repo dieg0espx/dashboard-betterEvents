@@ -125,7 +125,7 @@ function Inflatables() {
             {extras
             .filter((extra) => extra.name.toLowerCase().includes(finding))
             .map((extra, i) => (
-              <div className='row' key={inflatable.id} onClick={()=>openPopup(extra.id)}>
+              <div className='row' key={extra.id} onClick={()=>openPopup(extra.id)}>
                 <img src={extra.image} />
                 <div id="name-price">
                   <p id="name">{extra.name}</p>
