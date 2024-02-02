@@ -4,10 +4,9 @@ import { getFirestore } from 'firebase/firestore';
 import { collection, getDocs, addDoc, setDoc, doc, updateDoc } from "firebase/firestore";
 import app from '../Firebase';
 
-
 function UpdateInflatable(props) {
     const db = getFirestore(app);
-    const [newInflatable, setNewInflatable] = useState({ name:'', description:'', category:'', price:'', wetDry:'', width:'', height:'', image:'', count:''})
+    const [newInflatable, setNewInflatable] = useState({ name:'', description:'', category:'', price:'', wetDry:'', width:'', height:'', image:'', count:0})
     const [count, setCount] = useState(props.data.count)
 
     const handleInputChange = (e) => {
@@ -18,18 +17,45 @@ function UpdateInflatable(props) {
         });
     };
 
+    useEffect(() => {
+        setNewInflatable({
+            ...newInflatable,
+            ['count']: count,
+        });
+    }, [count]);
+
     const handleUpdateInflatable = async (e) => {
         e.preventDefault();
+        sanitizeObject()
+        console.log(newInflatable);
         console.log("UPDATE INFLATABLE ...");
         const inflatableRed = doc(db, newInflatable.category == 'extras'? "extras":"inflatables", props.data.id);
-        await updateDoc(inflatableRed, newInflatable);
+        await updateDoc(inflatableRed, sanitizeObject());
+    }
+    
+    function sanitizeObject() {
+        const sanitizedObject = {};
+        const obj = newInflatable
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            let value = obj[key];
+            if (value === undefined) {
+              value = '';
+            }
+            if (value === null || (typeof value === 'string' && value.trim() === '')) {
+              value = '';
+            }
+            sanitizedObject[key] = value;
+          }
+        }
+        return(sanitizedObject)
     }
 
     useEffect(()=>{
         console.log(props.data.id);
+        setCount(props.data.count)
         setNewInflatable({ name:props.data.name, description:props.data.description, category:props.data.category, price:props.data.price, wetDry:props.data.wetDry, width:props.data.width, height:props.data.height, image:props.data.image, count:props.data.count})
     },[props.data])
-
     
   return (
     <div className='popup-newInflatable'>

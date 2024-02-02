@@ -7,7 +7,6 @@ import NewInflatable from '../components/NewInflatable';
 import UpdateInflatable from '../components/UpdateInflatable';
 import { doc, setDoc, collection, query, where, getDocs  } from "firebase/firestore"; 
 
-
 function Inflatables() {
   const db = getFirestore(app);
   const [inflatables, setInflatables] = useState([])
@@ -52,12 +51,10 @@ function Inflatables() {
     });
     setExtras(arrayExtras);
   }
-
   useEffect(() => {
     getInflatables();
     getExtras()
   }, []);
-
   function openPopup(inflatableID, type){
     if(type == 'inflatable'){
       for(let i = 0; i < inflatables.length; i ++){
@@ -77,12 +74,10 @@ function Inflatables() {
     
     setPopup(2)
   }
-
   function closePopup(){
     setPopup(0)
     getInflatables()
   }
-
   useEffect(()=>{
     if(popup == 1 || popup == 2){
       document.body.style.overflow = 'hidden';
@@ -91,7 +86,6 @@ function Inflatables() {
     }
   },[popup])
 
- 
   return (
     <div className='inflatables'>
       <div>
