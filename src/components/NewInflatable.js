@@ -14,8 +14,10 @@ function NewInflatable() {
         wetDry:'',
         width:'',
         height:'',
-        image:''    
+        image:'', 
+        count:''
     })
+    const [count, setCount] = useState(0)
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -24,6 +26,12 @@ function NewInflatable() {
             [name]: value,
         });
     };
+    useEffect(()=>{
+        setNewInflatable({
+            ...newInflatable,
+            [count]: count,
+        });
+    },[count])
 
     async function createNewInflatable(e){
         e.preventDefault();
@@ -38,7 +46,8 @@ function NewInflatable() {
             wetDry:'',
             width:'',
             height:'',
-            image:''   
+            image:'', 
+            count: 0   
         })
     }
 
