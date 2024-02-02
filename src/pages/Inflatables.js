@@ -56,13 +56,23 @@ function Inflatables() {
     getExtras()
   }, []);
 
-  function openPopup(inflatableID){
-    for(let i = 0; i < inflatables.length; i ++){
-      if(inflatables[i].id == inflatableID){
-        setCurrentInflatable(inflatables[i])
-        break;
+  function openPopup(inflatableID, type){
+    if(type == 'inflatable'){
+      for(let i = 0; i < inflatables.length; i ++){
+        if(inflatables[i].id == inflatableID){
+          setCurrentInflatable(inflatables[i])
+          break;
+        }
+      }
+    } else {
+      for(let i = 0; i < extras.length; i ++){
+        if(extras[i].id == inflatableID){
+          setCurrentInflatable(extras[i])
+          break;
+        }
       }
     }
+    
     setPopup(2)
   }
 
@@ -99,7 +109,7 @@ function Inflatables() {
           {inflatables
             .filter((inflatable) => inflatable.name.toLowerCase().includes(finding))
             .map((inflatable, i) => (
-              <div className='row' key={inflatable.id} onClick={()=>openPopup(inflatable.id)}>
+              <div className='row' key={inflatable.id} onClick={()=>openPopup(inflatable.id, 'inflatable')}>
                 <img src={inflatable.image} />
                 <div id="name-price">
                   <p id="name">{inflatable.name}</p>
@@ -125,7 +135,7 @@ function Inflatables() {
             {extras
             .filter((extra) => extra.name.toLowerCase().includes(finding))
             .map((extra, i) => (
-              <div className='row' key={extra.id} onClick={()=>openPopup(extra.id)}>
+              <div className='row' key={extra.id} onClick={()=>openPopup(extra.id, 'extra')}>
                 <img src={extra.image} />
                 <div id="name-price">
                   <p id="name">{extra.name}</p>
