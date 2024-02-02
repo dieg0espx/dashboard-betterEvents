@@ -11,6 +11,7 @@ import { doc, setDoc, collection, query, where, getDocs  } from "firebase/firest
 function Inflatables() {
   const db = getFirestore(app);
   const [inflatables, setInflatables] = useState([])
+  const [extras, setExtras] = useState([])
   const [popup, setPopup] = useState(0)
   const [currentInflatable, setCurrentInflatable] = useState([])
   const [finding, setFinding] = useState('')
@@ -34,9 +35,25 @@ function Inflatables() {
     arrayInflatables.sort((a, b) => a.name.localeCompare(b.name));
     setInflatables(arrayInflatables);
   }
+  async function getExtras() {
+    let arrayExtras = [];
+    const querySnapshot = await getDocs(collection(db, "extras"));
+    querySnapshot.forEach((doc) => {
+      arrayExtras.push({
+        id: doc.id,
+        description: doc.data().description,
+        category: doc.data().category,
+        image: doc.data().image,
+        name: doc.data().name,
+        price: doc.data().price
+      });
+    });
+    setExtras(arrayExtras);
+  }
 
   useEffect(() => {
     getInflatables();
+    getExtras()
   }, []);
 
   function openPopup(inflatableID){
@@ -100,6 +117,32 @@ function Inflatables() {
                   </div>
                   <div className="dimention">          
                     <p className="value"> {inflatable.wetDry} </p>
+                    <p className="type"> Type </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {extras
+            .filter((extra) => extra.name.toLowerCase().includes(finding))
+            .map((extra, i) => (
+              <div className='row' key={inflatable.id} onClick={()=>openPopup(extra.id)}>
+                <img src={extra.image} />
+                <div id="name-price">
+                  <p id="name">{extra.name}</p>
+                  <p id="price">${extra.price}</p>
+                </div>
+                <p id="description" style={{height: extra.category !== 'extras' ? "100px":"150px"}}> {extra.description}</p>
+                <div id="dimentions" style={{display: extra.category !== 'extras' ? "grid":"none"}}>
+                  <div className="dimention">          
+                    <p className="value">{extra.width} ft </p>
+                    <p className="type"> Width</p>
+                  </div>
+                  <div className="dimention">          
+                    <p className="value">{extra.height} ft </p>
+                    <p className="type"> Height</p>
+                  </div>
+                  <div className="dimention">          
+                    <p className="value"> {extra.wetDry} </p>
                     <p className="type"> Type </p>
                   </div>
                 </div>
