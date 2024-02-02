@@ -44,7 +44,14 @@ function NewInflatable() {
 
   return (
     <div className='popup-newInflatable'>
-        <h2> Add New Inflatable </h2>
+        <div className='title'>
+            <h2> Add New Inflatable </h2>
+            <div className="counter">
+                <button onClick={()=>setCount(count --)}> - </button>
+                <p> {newInflatable.count} </p>
+                <button onClick={()=>setCount(count ++)}> + </button>
+            </div>
+        </div>
         <form onSubmit={createNewInflatable}>
         <input type="text" name="name" value={newInflatable.name} onChange={handleInputChange} placeholder='Inflatable Name'/>
             <textarea type="text" name="description" value={newInflatable.description} onChange={handleInputChange} placeholder='Description'/>

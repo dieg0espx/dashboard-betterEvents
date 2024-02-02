@@ -155,6 +155,15 @@
   justify-content: center;
   gap: 10px;
 }
+.popup-newInflatable .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.popup-newInflatable .counter {
+  display: flex;
+  flex-direction: column;
+}
 .popup-newInflatable h2 {
   font-weight: 500;
   color: #072A40;
