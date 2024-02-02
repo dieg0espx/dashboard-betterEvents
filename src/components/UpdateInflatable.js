@@ -48,7 +48,7 @@ function UpdateInflatable(props) {
                 <input id="price" type="number" name="price" value={newInflatable.price} onChange={handleInputChange} placeholder='Price'/>
                 <p id="currency"> USD</p>
             </div>
-            <div className='cols'>
+            <div className='cols' style={{display:newInflatable.category == 'extras' ? "none":"flex"}}>
                 <input type="text" name="width" value={newInflatable.width} onChange={handleInputChange} placeholder='Width'/>
                 <input type="number" name="height" value={newInflatable.height} onChange={handleInputChange} placeholder='Height'/>
                 <select name='wetDry' value={newInflatable.wetDry} onChange={handleInputChange}>
