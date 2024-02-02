@@ -163,6 +163,8 @@
 .popup-newInflatable .counter {
   display: flex;
   flex-direction: row;
+  gap:5px;
+  font-size: 20px;
 }
 .popup-newInflatable h2 {
   font-weight: 500;

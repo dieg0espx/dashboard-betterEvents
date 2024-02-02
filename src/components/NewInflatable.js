@@ -56,9 +56,9 @@ function NewInflatable() {
         <div className='title'>
             <h2> Add New Inflatable </h2>
             <div className="counter">
-                <button onClick={()=>setCount(count --)}> - </button>
+                <button onClick={()=>setCount(count - 1)}> - </button>
                 <p> {count} </p>
-                <button onClick={()=>setCount(count ++)}> + </button>
+                <button onClick={()=>setCount(count + 1)}> + </button>
             </div>
         </div>
         <form onSubmit={createNewInflatable}>
