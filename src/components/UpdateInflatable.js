@@ -20,7 +20,7 @@ function UpdateInflatable(props) {
     const handleUpdateInflatable = async (e) => {
         e.preventDefault();
         console.log("UPDATE INFLATABLE ...");
-        const inflatableRed = doc(db, "inflatables", props.data.id);
+        const inflatableRed = doc(db, newInflatable.category == 'extras'? "extras":"inflatables", props.data.id);
         await updateDoc(inflatableRed, newInflatable);
     }
 
