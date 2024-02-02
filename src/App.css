@@ -161,9 +161,10 @@
   align-items: center;
 }
 .popup-newInflatable .counter {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   gap:5px;
+  width: 150px;
   font-size: 20px;
 }
 .popup-newInflatable h2 {
