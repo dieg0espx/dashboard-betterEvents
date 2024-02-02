@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Inflatables from '../pages/Inflatables';
 import { getFirestore } from 'firebase/firestore';
 import { collection, getDocs, addDoc } from "firebase/firestore";
