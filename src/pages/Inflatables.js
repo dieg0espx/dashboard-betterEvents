@@ -107,7 +107,7 @@ function Inflatables() {
           </div>
           <div className='list'>
           {inflatables
-            .filter((inflatable) => inflatable.name.toLowerCase().includes(finding))
+            .filter((inflatable) => inflatable.name.toLowerCase().includes(finding.toLowerCase()))
             .map((inflatable, i) => (
               <div className='row' key={inflatable.id} onClick={()=>openPopup(inflatable.id, 'inflatable')}>
                 <img src={inflatable.image} />
@@ -133,7 +133,7 @@ function Inflatables() {
               </div>
             ))}
             {extras
-            .filter((extra) => extra.name.toLowerCase().includes(finding))
+            .filter((extra) => extra.name.toLowerCase().includes(finding.toLowerCase()))
             .map((extra, i) => (
               <div className='row' key={extra.id} onClick={()=>openPopup(extra.id, 'extra')}>
                 <img src={extra.image} />
