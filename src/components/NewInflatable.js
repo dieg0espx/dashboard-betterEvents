@@ -35,7 +35,6 @@ function NewInflatable() {
 
     async function createNewInflatable(e){
         e.preventDefault();
-        
         await addDoc(collection(db, newInflatable.category == 'extras'? "extras":"inflatables"),newInflatable)
         alert('New Inflatable added successfully !')
         setNewInflatable({    

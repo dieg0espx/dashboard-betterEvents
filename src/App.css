@@ -166,6 +166,10 @@
   gap:5px;
   width: 150px;
   font-size: 20px;
+  text-align: center;
+}
+.popup-newInflatable .counter p{
+  text-align: center;
 }
 .popup-newInflatable h2 {
   font-weight: 500;
