@@ -83,26 +83,26 @@ function Inflatables() {
             .filter((inflatable) => inflatable.name.toLowerCase().includes(finding))
             .map((inflatable, i) => (
               <div className='row' key={inflatable.id} onClick={()=>openPopup(inflatable.id)}>
-                    <img src={inflatable.image} />
-                    <div id="name-price">
-                      <p id="name">{inflatable.name}</p>
-                      <p id="price">${inflatable.price}</p>
-                    </div>
-                    <p id="description" style={{height: inflatable.category !== 'extras' ? "100px":"150px"}}> {inflatable.description}</p>
-                    <div id="dimentions" style={{display: inflatable.category !== 'extras' ? "grid":"none"}}>
-                      <div className="dimention">          
-                        <p className="value">{inflatable.width} ft </p>
-                        <p className="type"> Width</p>
-                      </div>
-                      <div className="dimention">          
-                        <p className="value">{inflatable.height} ft </p>
-                        <p className="type"> Height</p>
-                      </div>
-                      <div className="dimention">          
-                        <p className="value"> {inflatable.wetDry} </p>
-                        <p className="type"> Type </p>
-                      </div>
-                    </div>
+                <img src={inflatable.image} />
+                <div id="name-price">
+                  <p id="name">{inflatable.name}</p>
+                  <p id="price">${inflatable.price}</p>
+                </div>
+                <p id="description" style={{height: inflatable.category !== 'extras' ? "100px":"150px"}}> {inflatable.description}</p>
+                <div id="dimentions" style={{display: inflatable.category !== 'extras' ? "grid":"none"}}>
+                  <div className="dimention">          
+                    <p className="value">{inflatable.width} ft </p>
+                    <p className="type"> Width</p>
+                  </div>
+                  <div className="dimention">          
+                    <p className="value">{inflatable.height} ft </p>
+                    <p className="type"> Height</p>
+                  </div>
+                  <div className="dimention">          
+                    <p className="value"> {inflatable.wetDry} </p>
+                    <p className="type"> Type </p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
