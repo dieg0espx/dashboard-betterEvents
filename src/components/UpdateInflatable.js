@@ -7,7 +7,8 @@ import app from '../Firebase';
 
 function UpdateInflatable(props) {
     const db = getFirestore(app);
-    const [newInflatable, setNewInflatable] = useState({ name:'', description:'', category:'', price:'', wetDry:'', width:'', height:'', image:''})
+    const [newInflatable, setNewInflatable] = useState({ name:'', description:'', category:'', price:'', wetDry:'', width:'', height:'', image:'', count:''})
+    const [count, setCount] = useState(props.data.count)
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -26,13 +27,20 @@ function UpdateInflatable(props) {
 
     useEffect(()=>{
         console.log(props.data.id);
-        setNewInflatable({ name:props.data.name, description:props.data.description, category:props.data.category, price:props.data.price, wetDry:props.data.wetDry, width:props.data.width, height:props.data.height, image:props.data.image})
+        setNewInflatable({ name:props.data.name, description:props.data.description, category:props.data.category, price:props.data.price, wetDry:props.data.wetDry, width:props.data.width, height:props.data.height, image:props.data.image, count:props.data.count})
     },[props.data])
 
     
   return (
     <div className='popup-newInflatable'>
-        <h2> Update Inflatable </h2>
+         <div className='title'>
+            <h2> Update Infatable Inflatable </h2>
+            <div className="counter">
+                <button onClick={()=>setCount(count - 1)}> - </button>
+                <p> {count} </p>
+                <button onClick={()=>setCount(count + 1)}> + </button>
+            </div>
+        </div>
         <form onSubmit={handleUpdateInflatable}>
             <input type="text" name="name" value={newInflatable.name} onChange={handleInputChange} placeholder='Inflatable Name'/>
             <textarea type="text" name="description" value={newInflatable.description} onChange={handleInputChange} placeholder='Description'/>

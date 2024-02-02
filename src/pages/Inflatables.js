@@ -29,7 +29,8 @@ function Inflatables() {
         image: doc.data().image,
         name: doc.data().name,
         price: doc.data().price,
-        width: doc.data().width
+        width: doc.data().width,
+        count:doc.data().count
       });
     });
     arrayInflatables.sort((a, b) => a.name.localeCompare(b.name));
@@ -45,7 +46,8 @@ function Inflatables() {
         category: doc.data().category,
         image: doc.data().image,
         name: doc.data().name,
-        price: doc.data().price
+        price: doc.data().price,
+        count:doc.data().count
       });
     });
     setExtras(arrayExtras);
