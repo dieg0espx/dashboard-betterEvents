@@ -11,7 +11,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Inflatables />} />
       <Route path="/inflatables" element={<Inflatables />} />
-      <Route path="/bookings" element={<Bookings />} />
+      <Route path="/bookings" element={<Calendar />} />
       <Route path="/calendar" element={<Calendar />} />
     </Routes>
   </HashRouter>
