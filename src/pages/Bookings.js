@@ -9,15 +9,13 @@ import BookingsInfo from '../components/BookingsInfo';
 function Bookings() {
   const db = getFirestore(app);
   const [bookings, setBookings] = useState([]);
-  const [currentInfo, setCurrentInfo] = useState([]);
+  const [currentData, setCurrentData] = useState([]);
   const[showPopUp,setShowPopUp]=useState(false);
 
   async function getBookings() {
     const querySnapshot = await getDocs(collection(db, 'bookings'));
     let arrayBookings = [];
-
     querySnapshot.docs.map(async (doc) => {
-      
       arrayBookings.push({
         id: doc.id,
         address: doc.data().address,
@@ -31,7 +29,6 @@ function Bookings() {
         inflatableImage: doc.data().inflatableImage
       });
     });
-
     setBookings(arrayBookings);
   }
 
@@ -49,18 +46,17 @@ function Bookings() {
   }
 
   async function getCurrentInflatable(booking){
+    let arrayData = []
+    arrayData.push(booking);
     const inflatableRef = doc(db, "inflatables", booking.inflatableID);
     const docSnap = await getDoc(inflatableRef);
-
-    let arrayInfo=[]
-    arrayInfo.push(booking);
     if (docSnap.exists()) {
-      arrayInfo.push(docSnap.data());
-      console.log(arrayInfo);
-      setCurrentInfo(arrayInfo);
+      arrayData.push(docSnap.data());
+      setCurrentData(arrayData);
       setShowPopUp(true);
+      console.log("Opening PopUp");
     } else {
-      console.log("No such document!");
+      alert("Inflatable Not Found :(")
     }
   }
 
@@ -77,7 +73,7 @@ function Bookings() {
           {bookings.map((booking) => (
             <div className='row' key={booking.id}>
               <div className='img-container'>
-                    <img src={booking.inflatableImage} class="row-image"/>
+                    <img src={booking.inflatableImage} className="row-image"/>
                   </div>
               <div className='information-container'>
                 <div className='bookingDates'>
@@ -94,7 +90,7 @@ function Bookings() {
 
                 <div style={{display: showPopUp?"block":"none"}}>
                   <div className='overlay' onClick={() => setShowPopUp(false)}>
-                    <BookingsInfo bookings={currentInfo} />
+                    <BookingsInfo bookings={currentData} />
                   </div>
                 </div>
               </div>

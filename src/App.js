@@ -3,6 +3,7 @@ import './App.css';
 import { HashRouter, Routes, Route, Link } from 'react-router-dom';
 import Inflatables from './pages/Inflatables';
 import Bookings from './pages/Bookings';
+import Calendar from './pages/Calendar';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Route path="/" element={<Inflatables />} />
       <Route path="/inflatables" element={<Inflatables />} />
       <Route path="/bookings" element={<Bookings />} />
+      <Route path="/calendar" element={<Calendar />} />
     </Routes>
   </HashRouter>
   );
