@@ -104,43 +104,43 @@ function Calendar() {
         <div className='content'>
           <FullCalendar plugins={[dayGridPlugin]} initialView='dayGridMonth' eventClick={handleEventClick} events={events} eventContent={eventContent} />
           <div className='booking-popup' style={{display: showCurrentBooking? "block":"none"}}>
-            <img src={currentBooking.inflatableImage} />
+            <div className='img-container'>
+              <img src={currentBooking.inflatableImage} />
+            </div>
             <div className='field'>
               <p className='label'> Inflatable </p>
-              <p className='value'> Inflatable Name </p>
+              <p className='value'> <i className="bi bi-list-nested iconName"></i>  Inflatable Name </p>
             </div>
             <div className='field'>
               <p className='label'> Booking Id </p>
-              <p className='value'> {currentBooking.id} </p>
+              <p className='value'> <i className="bi bi-list-nested iconField"></i> {currentBooking.id} </p>
             </div>
             <div className='field'>
               <p className='label'> Customer Name </p>
-              <p className='value'> {currentBooking.name} {currentBooking.lastName} </p>
+              <p className='value'> <i className="bi bi-person iconField"></i> {currentBooking.name} {currentBooking.lastName} </p>
             </div>
             <div className='field'>
               <p className='label'> Customer Phone </p>
-              <p className='value'> {currentBooking.phone} </p>
+              <p className='value'> <i className="bi bi-telephone iconField"></i> {currentBooking.phone} </p>
             </div>
             <div className='field'>
               <p className='label'> Customer Email </p>
-              <p className='value'> {currentBooking.email} </p>
+              <p className='value'> <i className="bi bi-envelope iconField"></i> {currentBooking.email} </p>
             </div>
             <div className='field'>
               <p className='label'> Delivery Address </p>
-              <p className='value'> {currentBooking.address} {currentBooking.postalCode} </p>
+              <p className='value'> <i className="bi bi-geo-alt iconField"></i> {currentBooking.address} {currentBooking.postalCode} </p>
             </div>
-
             <div className='field'>
               <p className='label'> Booking Dates </p>
               {currentBooking.bookingDates?.map((date, index) => (
                 <React.Fragment key={index}>                  
-                  {strToDate(date)}
+                  <i className="bi bi-calendar2-week iconField"></i> {strToDate(date)}
                   <br></br>
                   <hr></hr>
                 </React.Fragment>
               ))}
             </div>
-
           </div>
           <div className='overlay' onClick={()=>setShowCurrentBooking(!showCurrentBooking)} style={{display: showCurrentBooking? "block":"none"}}></div>
         </div>
