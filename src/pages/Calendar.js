@@ -30,7 +30,13 @@ function Calendar() {
         name: doc.data().name,
         phone: doc.data().phone,
         postalCode: doc.data().postalCode,
-        inflatableImage: doc.data().inflatableImage
+        inflatableImage: doc.data().inflatableImage,
+        inflatableName: doc.data().inflatableName, 
+        deposit: doc.data().balances.deposit,
+        insurance: doc.data().balances.insurance,
+        paid: doc.data().balances.paid,
+        rent: doc.data().balances.rent,
+
       });
       arrayEvents.push({
         title:doc.data().name + ' ' + doc.data().lastName, 
@@ -54,6 +60,7 @@ function Calendar() {
         document.body.style.overflow = 'visible';
       }
     }, [showCurrentBooking]);
+    
     function getRandomColor() {
       const getRandomComponent = () => Math.floor(Math.random() * 128 + 64).toString(16).padStart(2, '0');
       return `#${getRandomComponent()}${getRandomComponent()}${getRandomComponent()}`;
@@ -85,6 +92,7 @@ function Calendar() {
       for(let i =0; i < bookings.length; i ++){
         if(bookings[i].id == id){
           setCurrentBooking(bookings[i])
+          console.log(bookings[i].balances);
         }
       }
     }
@@ -94,7 +102,20 @@ function Calendar() {
       const options = {weekday:'short', year: 'numeric', month: 'long', day: 'numeric' };
       const formattedDate = dateObject.toLocaleDateString('en-US', options);
       return formattedDate
-   }
+    }
+    function formatCurrency(number) {
+      // Ensure the input is a valid number
+      const parsedNumber = parseFloat(number);
+    
+      // Check if the parsedNumber is a valid number
+      if (!isNaN(parsedNumber)) {
+        // Use toFixed to round to two decimal places and add $ sign
+        return `$${parsedNumber.toFixed(2)}`;
+      } else {
+        // Handle the case where the input is not a valid number
+        return 'Invalid Number';
+      }
+    }
 
   return (
     <div className='calendar-page'>
@@ -109,7 +130,7 @@ function Calendar() {
             </div>
             <div className='field'>
               <p className='label'> Inflatable </p>
-              <p className='value'> <i className="bi bi-list-nested iconName"></i>  Inflatable Name </p>
+              <p className='value'> <i className="bi bi-list-nested iconName"></i>  {currentBooking.inflatableName} </p>
             </div>
             <div className='field'>
               <p className='label'> Booking Id </p>
@@ -137,9 +158,27 @@ function Calendar() {
                 <React.Fragment key={index}>                  
                   <i className="bi bi-calendar2-week iconField"></i> {strToDate(date)}
                   <br></br>
-                  <hr></hr>
                 </React.Fragment>
               ))}
+            </div>
+            <div className='field'>
+              <p className='label'> Balances </p>
+              <div className='balance-row'>
+                <p><i className="bi bi-check-circle-fill iconField"></i> Deposit:</p>
+                <p>{formatCurrency(currentBooking.deposit)} </p>
+              </div>
+              <div className='balance-row'>
+                <p><i className="bi bi-check-circle-fill iconField"></i> Damage Waiver:</p>
+                <p>{formatCurrency(currentBooking.insurance)} </p>
+              </div>
+              <div className='balance-row'>
+                <p><i className="bi bi-check-circle-fill iconField"></i> Inflatable Rent:</p>
+                <p>{formatCurrency(currentBooking.rent)} </p>
+              </div>
+              <div className='balance-row'>
+                <p><i className="bi bi-check-circle-fill iconField"></i> Total Paid:</p>
+                <p>{formatCurrency(currentBooking.paid)} </p>
+              </div>
             </div>
           </div>
           <div className='overlay' onClick={()=>setShowCurrentBooking(!showCurrentBooking)} style={{display: showCurrentBooking? "block":"none"}}></div>
