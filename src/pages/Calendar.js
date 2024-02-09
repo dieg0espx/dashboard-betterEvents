@@ -40,6 +40,7 @@ function Calendar() {
       });
       arrayEvents.push({
         title:doc.data().name + ' ' + doc.data().lastName, 
+        subtitle:doc.data().inflatableName, 
         start: new Date((doc.data().bookingDates[0])),
         end: new Date(new Date(doc.data().bookingDates[doc.data().bookingDates.length - 1]).setDate(new Date(doc.data().bookingDates[doc.data().bookingDates.length - 1]).getDate() + 1)),
         id:doc.id,
@@ -68,15 +69,23 @@ function Calendar() {
 
     const eventContent = (eventInfo) => {
       return (
-        <div className="custom-event">
+        <div className="custom-event" style={{ borderLeft: `3px solid ${getRandomColor()}`}}>
           <div className="event-title">{eventInfo.event.title}</div>
-          <div className="event-time">
-            {formatDate(eventInfo.event.start)} - {formatDate(eventInfo.event.end.setDate(eventInfo.event.end.getDate() - 1))}
-          </div>
+          <div className="event-content">{getInflatableName(eventInfo.event.id)}</div>
         </div>
       );
     };
 
+    function getInflatableName(id){
+      for(let i=0; i < bookings.length; i ++){
+        if(bookings[i].id == id){
+          return bookings[i].inflatableName
+        }
+      }
+    }
+
+  
+    
     const formatDate = (inputDate) => {
       const date = new Date(inputDate);
       const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -148,9 +157,9 @@ function Calendar() {
               <p className='label'> Customer Email </p>
               <p className='value'> <i className="bi bi-envelope iconField"></i> {currentBooking.email} </p>
             </div>
-            <div className='field'>
+            <div className='field clickeable' onClick={()=>window.location.href = "https://www.google.com/maps/place/" + currentBooking.address}>
               <p className='label'> Delivery Address </p>
-              <p className='value'> <i className="bi bi-geo-alt iconField"></i> {currentBooking.address} {currentBooking.postalCode} </p>
+              <p className='value'> <i className="bi bi-geo-alt iconField"></i> {currentBooking.address}</p>
             </div>
             <div className='field'>
               <p className='label'> Booking Dates </p>

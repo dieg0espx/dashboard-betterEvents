@@ -22,7 +22,7 @@ function BookingsInfo({bookings}) {
         <p className="inflatableName">{bookings[1].name} </p>
         <p className="type"> Booking Dates: {formatDateRange(bookings[0].bookingDates)}</p> 
         <div className="adress-PC">
-          <p className="address">{bookings[0].address}</p>
+          <p className="address" onClick={()=>window.location.href = "https://www.google.com/maps/place/" +  bookings[0].address}>{bookings[0].address}</p>
           <p className="postalCode">{bookings[0].postalCode}</p>
         </div>
         <div className="phone-email">
