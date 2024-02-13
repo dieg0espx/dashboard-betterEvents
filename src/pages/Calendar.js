@@ -6,6 +6,7 @@ import { doc } from "firebase/firestore";
 import app from '../Firebase';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from'@fullcalendar/daygrid'
+import PopupNewReservation from '../components/PopupNewReservation'
 
 function Calendar() {
     const db = getFirestore(app)
@@ -13,6 +14,7 @@ function Calendar() {
     const [bookings, setBookings] = useState([])
     const [currentBooking, setCurrentBooking] = useState([])
     const [showCurrentBooking, setShowCurrentBooking]= useState(false)
+    const [showNewReservation, setShowNewReservation] = useState(false)
 
     async function getBookings(){
       const querySnapshot = await getDocs(collection(db, 'bookings'));
@@ -36,6 +38,7 @@ function Calendar() {
         insurance: doc.data().balances.insurance,
         paid: doc.data().balances.paid,
         rent: doc.data().balances.rent,
+        method:doc.data().method
 
       });
       arrayEvents.push({
@@ -55,12 +58,12 @@ function Calendar() {
         getBookings()
     },[])
     useEffect(() => {
-      if(showCurrentBooking){
+      if(showCurrentBooking || showNewReservation){
         document.body.style.overflow = 'hidden';
       } else {
         document.body.style.overflow = 'visible';
       }
-    }, [showCurrentBooking]);
+    }, [showCurrentBooking, showNewReservation]);
     
     function getRandomColor() {
       const getRandomComponent = () => Math.floor(Math.random() * 128 + 64).toString(16).padStart(2, '0');
@@ -83,15 +86,11 @@ function Calendar() {
         }
       }
     }
-
-  
-    
     const formatDate = (inputDate) => {
       const date = new Date(inputDate);
       const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
       return date.toLocaleDateString(undefined, options)
     };
-
     function handleEventClick(eventClickInfo) {
       const { event } = eventClickInfo;
       getCurrentBooking(event.id)
@@ -105,7 +104,6 @@ function Calendar() {
         }
       }
     }
-
     function strToDate(str){
       const dateObject = new Date(str);
       const options = {weekday:'short', year: 'numeric', month: 'long', day: 'numeric' };
@@ -125,6 +123,15 @@ function Calendar() {
         return 'Invalid Number';
       }
     }
+
+    function openNewReservation(){
+      setShowNewReservation(true)
+    }
+    function closeOverlay(){
+      setShowCurrentBooking(false)
+      setShowNewReservation(false)
+    }
+
 
   return (
     <div className='calendar-page'>
@@ -171,6 +178,10 @@ function Calendar() {
               ))}
             </div>
             <div className='field'>
+              <p className='label'> Payment Method </p>
+              <p className='value'> <i className="bi bi-bank iconField"></i> {currentBooking.method} </p>
+            </div>
+            <div className='field'>
               <p className='label'> Balances </p>
               <div className='balance-row'>
                 <p><i className="bi bi-check-circle-fill iconField"></i> Deposit:</p>
@@ -190,7 +201,11 @@ function Calendar() {
               </div>
             </div>
           </div>
-          <div className='overlay' onClick={()=>setShowCurrentBooking(!showCurrentBooking)} style={{display: showCurrentBooking? "block":"none"}}></div>
+          <div className='overlay' onClick={()=>closeOverlay()} style={{display: showCurrentBooking || showNewReservation? "block":"none"}}></div>
+          <button className='btn-newReservation' onClick={()=>openNewReservation()}> + </button>
+          <div style={{display: showNewReservation? "block":"none"}}>
+            <PopupNewReservation />
+          </div>
         </div>
     </div>
   )
