@@ -667,6 +667,7 @@
   z-index: 999;
   border-radius: 20px;
   padding: 40px;
+  transition: 0.5s;
 }
 .popup-newReservation h2 {
   margin-bottom: 30px;

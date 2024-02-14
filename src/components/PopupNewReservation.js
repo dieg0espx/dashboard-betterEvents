@@ -1,24 +1,36 @@
 import React, { useState, useEffect } from 'react'
 import { getFirestore } from 'firebase/firestore';
 import app from '../Firebase';
-import { doc, setDoc, collection, query, where, getDocs  } from "firebase/firestore"; 
+import { doc, setDoc, collection, query, where, getDocs, addDoc  } from "firebase/firestore"; 
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import Calendar from 'react-calendar';
 
 function PopupNewReservation() {
     const db = getFirestore(app);
     const [inflatables, setInflatables] = useState([])
-    const [address, setAddress] = useState('');
-    const [coordinates, setCoordinates] = useState([])
 
     const [dates, setDates] = useState([])
-    const [bookingDates, setBookingDates] = useState([])
     const [busyDates, setBusyDates] = useState([])
     const [selectedInflatable, setSelectedInflatable] = useState([])
     const [total, setTotal] = useState(0)
     const [includeInsurance, setIncludeInsurance] = useState(false)
     const [paymentMethod, setPaymentMethod] = useState(1)
     const [bookCompleted, setBookCompleted] = useState(false)
+    const [reservationID, setReservationID] = useState('')
+    const [inflatableImage, setInflatableImage] = useState('')
+
+
+    const [name, setName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [phone, setPhone] = useState('')
+    const [email, setEmail] = useState('')
+    const [address, setAddress] = useState('');
+    const [coordinates, setCoordinates] = useState([])
+    const [bookingDates, setBookingDates] = useState([])
+    const [balances, setBalances] = useState([])
+
+    const [reservation, setReservation] = useState([])
+
 
     async function getInflatables() {
         let arrayInflatables = [];
@@ -67,8 +79,7 @@ function PopupNewReservation() {
             }
           }
         }
-      },[bookingDates])
-
+    },[bookingDates])
     const handleSelect = async (selectedAddress) => {
         const results = await geocodeByAddress(selectedAddress);
         const latLng = await getLatLng(results[0]);
@@ -81,7 +92,7 @@ function PopupNewReservation() {
         let arrayDates = []
         const querySnapshot = await getDocs(collection(db, "bookings"));
         querySnapshot.forEach((doc) => {
-          if(doc.data().inflatableID == id){
+          if(selectedInflatable.id == id){
             for (let i = 0; i < doc.data().bookingDates.length; i++) {
               arrayDates.push(new Date(doc.data().bookingDates[i]))
             }
@@ -109,16 +120,15 @@ function PopupNewReservation() {
       
         return false;
     };
-
     function choosingInflatable(id){
         getBusyDates(id)
         for (let i =0;i < inflatables.length; i ++){
             if(inflatables[i].id == id){
                 setSelectedInflatable(inflatables[i])
+                setInflatableImage(inflatables[i].image)
             }
         }
     }
-
     function formatCurrency(amount, currencyCode = 'USD', locale = 'en-US') {
         // Use the Intl.NumberFormat to format the number as currency
         const formatter = new Intl.NumberFormat(locale, {
@@ -154,7 +164,53 @@ function PopupNewReservation() {
           day: '2-digit',
           year: 'numeric',
         });
-      } 
+    }
+    
+    async function createReservation(){
+      let balances = {
+        'deposit': 0,
+        'insurance': includeInsurance ? parseFloat(bookingDates.length * selectedInflatable.price * 0.09) : 0,
+        'rent': parseFloat(bookingDates.length * selectedInflatable.price),
+        'paid': includeInsurance ? parseFloat((bookingDates.length * selectedInflatable.price)* 1.09) + 100 : parseFloat(selectedInflatable.price),
+      }
+      let arrayData = {
+        name:name, 
+        lastName:lastName, 
+        phone:phone, 
+        email:email, 
+        address, 
+        coordinates, 
+        bookingDates, 
+        inflatableID:selectedInflatable.id, 
+        inflatableName:selectedInflatable.name, 
+        inflatableImage:inflatableImage,
+        balances, 
+        method:paymentMethod == 1 ? 'Cash': 'Credit Card'
+      }
+      setReservation(arrayData)
+      console.log('DATA: ' + arrayData);    
+      const docRef = await addDoc(collection(db, "bookings"), arrayData);
+      setReservationID(docRef.id) 
+    }
+    async function sendEmailConfirmation(id){
+      await fetch('https://better-stays-mailer.vercel.app/api/bebookingConfirmation', {
+        method: 'POST',
+        body: JSON.stringify({ 
+          name, 
+          lastName,
+          phone,
+          email,
+          address,
+          dates: bookingDates,
+          reservationID: id,
+          image: selectedInflatable.image,
+          paid: includeInsurance ? parseFloat(selectedInflatable.price * 1.09) + 100 : parseFloat(selectedInflatable.price) + 100
+      }), headers: {'Content-Type': 'application/json'}})
+    }
+    useEffect(()=>{
+      console.log(selectedInflatable);
+    },[selectedInflatable])
+
 
   return (
     <div className='popup-newReservation'>
@@ -170,15 +226,15 @@ function PopupNewReservation() {
         </div>
         <div className='cols'>
             <i className="bi bi-person iconField"></i>
-            <input className='input-field' type='text' placeholder='Customer Name' />
+            <input className='input-field' type='text' placeholder='Customer Name' onChange={(e) =>setName(e.target.value)}/>
             <i className="bi bi-person iconField"></i>
-            <input className='input-field' type='text' placeholder='Customer Last Name' />
+            <input className='input-field' type='text' placeholder='Customer Last Name' onChange={(e) =>setLastName(e.target.value)} />
         </div>
         <div className='cols'>
             <i className="bi bi-phone iconField"></i>
-            <input className='input-field' type='phone' placeholder='Customer Phone' />
+            <input className='input-field' type='phone' placeholder='Customer Phone' onChange={(e)=>setPhone(e.target.value)}/>
             <i className="bi bi-envelope iconField"></i>
-            <input className='input-field' type='email' placeholder='Customer Email' />
+            <input className='input-field' type='email' placeholder='Customer Email' onChange={(e)=>setEmail(e.target.value)}/>
         </div>
         <div className='cols'>
             <i className="bi bi-geo-alt iconField"></i>
@@ -235,7 +291,7 @@ function PopupNewReservation() {
                         <p> Credit Card </p>
                       </div>
                       </div>
-                      <button id="btnPay"> {formatCurrency(total)} USD </button>
+                      <button id="btnPay" onClick={()=>createReservation()}> {formatCurrency(total)} USD </button>
                     </>
                  )}
             </div>
