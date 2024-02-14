@@ -254,6 +254,20 @@
   color: gray;
 }
 
+.popup-newInflatable #btnDelete {
+  color: red;
+  background-color: transparent;
+  border: none;
+  font-size: 600;
+  width: fit-content;
+  padding: 5px 20px;
+  border-radius: 5px;
+  display: block;
+  margin: 0  0  0 auto;
+}
+.popup-newInflatable #btnDelete:hover {
+  border: 1px solid red;
+}
 
 
 .row {

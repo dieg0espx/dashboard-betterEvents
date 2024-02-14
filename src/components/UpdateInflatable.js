@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Inflatables from '../pages/Inflatables';
 import { getFirestore } from 'firebase/firestore';
-import { collection, getDocs, addDoc, setDoc, doc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, setDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import app from '../Firebase';
 
 function UpdateInflatable(props) {
     const db = getFirestore(app);
-    const [newInflatable, setNewInflatable] = useState({ name:'', description:'', category:'', price:'', wetDry:'', width:'', height:'', image:'', count:0})
+    const [newInflatable, setNewInflatable] = useState({ id:'', name:'', description:'', category:'', price:'', wetDry:'', width:'', height:'', image:'', count:0})
     const [count, setCount] = useState(props.data.count)
 
     const handleInputChange = (e) => {
@@ -54,8 +54,16 @@ function UpdateInflatable(props) {
     useEffect(()=>{
         console.log(props.data.id);
         setCount(props.data.count)
-        setNewInflatable({ name:props.data.name, description:props.data.description, category:props.data.category, price:props.data.price, wetDry:props.data.wetDry, width:props.data.width, height:props.data.height, image:props.data.image, count:props.data.count})
+        setNewInflatable({ id: props.data.id, name:props.data.name, description:props.data.description, category:props.data.category, price:props.data.price, wetDry:props.data.wetDry, width:props.data.width, height:props.data.height, image:props.data.image, count:props.data.count})
     },[props.data])
+
+    async function deleteInflatable(id, inflatableName){
+        var result = window.confirm("Do you want to delete " + inflatableName + " ?");
+        if (result) {
+            await deleteDoc(doc(db, "inflatables", id));
+            window.location.reload()
+        } 
+    }
     
   return (
     <div className='popup-newInflatable'>
@@ -93,6 +101,7 @@ function UpdateInflatable(props) {
             <input type="text" name="image" value={newInflatable.image} onChange={handleInputChange} placeholder='Image URL'/>     
             <button type='submit' onClick={()=>props.popup()}> Update Inflatable </button>
         </form>
+        <button id="btnDelete" onClick={()=>deleteInflatable(newInflatable.id, newInflatable.name)}> Delete </button>
     </div>
   )
 }
