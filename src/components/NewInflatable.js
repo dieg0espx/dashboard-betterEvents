@@ -11,7 +11,7 @@ function NewInflatable() {
         description:'',
         category:'',
         price:'',
-        wetDry:'Dry',
+        wetDry:'Wet / Dry',
         width:'',
         height:'',
         image:'', 
@@ -42,7 +42,7 @@ function NewInflatable() {
             description:'',
             category:'',
             price:'',
-            wetDry:'',
+            wetDry:'Wet / Dry',
             width:'',
             height:'',
             image:'', 
@@ -79,6 +79,7 @@ function NewInflatable() {
                 <input type="text" name="width" value={newInflatable.width} onChange={handleInputChange} placeholder='Width'/>
                 <input type="number" name="height" value={newInflatable.height} onChange={handleInputChange} placeholder='Height'/>
                 <select name='wetDry' value={newInflatable.wetDry} onChange={handleInputChange}>
+                    <option value={'Wet / Dry'}> Wet / Dry </option>
                     <option value={'Dry'}> Dry </option>
                     <option value={'Wet'}> Wet </option>
                 </select>
