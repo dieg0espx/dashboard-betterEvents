@@ -87,20 +87,20 @@ function PopupNewReservation() {
         setAddress(selectedAddress);
         setCoordinates(coordinatesStr)
      };
-    async function getBusyDates(id){
-        console.log('GETTING BUSY DATES ... ');
-        let arrayDates = []
-        const querySnapshot = await getDocs(collection(db, "bookings"));
-        querySnapshot.forEach((doc) => {
-          if(selectedInflatable.id == id){
-            for (let i = 0; i < doc.data().bookingDates.length; i++) {
-              arrayDates.push(new Date(doc.data().bookingDates[i]))
-            }
-          }
-        });
-        console.log(arrayDates);
-        setBusyDates(arrayDates)
-    };
+    // async function getBusyDates(id){
+    //     console.log('GETTING BUSY DATES ... ');
+    //     let arrayDates = []
+    //     const querySnapshot = await getDocs(collection(db, "bookings"));
+    //     querySnapshot.forEach((doc) => {
+    //       if(selectedInflatable.id == id){
+    //         for (let i = 0; i < doc.data().bookingDates.length; i++) {
+    //           arrayDates.push(new Date(doc.data().bookingDates[i]))
+    //         }
+    //       }
+    //     });
+    //     console.log(arrayDates);
+    //     setBusyDates(arrayDates)
+    // };
     const tileDisabled = ({ date, view }) => {
         // Disable dates before today
         const isBeforeToday = date < new Date();
@@ -120,7 +120,7 @@ function PopupNewReservation() {
       
         return false;
     };
-    function choosingInflatable(id){
+    function choosingInflatable(id){    
         getBusyDates(id)
         for (let i =0;i < inflatables.length; i ++){
             if(inflatables[i].id == id){
@@ -211,6 +211,46 @@ function PopupNewReservation() {
       console.log(selectedInflatable);
     },[selectedInflatable])
 
+    async function getBusyDates(id){
+      console.log('GETTING BUSY DATES ....');
+      console.log("ID: " + id)
+      let count = 0;
+      for(let i = 0; i < inflatables.length; i ++){
+        if(inflatables[i].id == id){
+          count = inflatables[i].count
+        }
+      }
+
+      let arrayDates = []
+      let bookedDates = []
+      const querySnapshot = await getDocs(collection(db, "bookings"));
+      querySnapshot.forEach((doc) => {
+        if(doc.data().inflatableID == id){
+          for (let i = 0; i < doc.data().bookingDates.length; i++) {
+            arrayDates.push(new Date(doc.data().bookingDates[i]))
+          }
+        }
+      });
+      var counts = {};
+      for (var i = 0; i < arrayDates.length; i++) {
+        var element = arrayDates[i];
+        if (counts[element] === undefined) {
+          counts[element] = 1;
+        } else {
+          counts[element]++;
+        }
+      }
+      for (var key in counts) {
+        if (counts.hasOwnProperty(key)) {
+          if(counts[key] >= count){
+            bookedDates.push(new Date(key))
+          }
+        }
+      }
+      console.log(bookedDates);
+      setBusyDates(bookedDates)
+    };
+
 
   return (
     <div className='popup-newReservation'>
@@ -220,7 +260,7 @@ function PopupNewReservation() {
             <select onChange={(event) => choosingInflatable(event.target.value)}>
                 <option value="" disabled selected> Select Inflatable</option>
                 {inflatables.map((inflatable) => (
-                  <option key={inflatable.id} value={inflatable.id} onClick={()=>getBusyDates(inflatable.id)}> {inflatable.name} </option>
+                  <option key={inflatable.id} value={inflatable.id} onClick={()=>getBusyDates(inflatable.id)}> {inflatable.name} {inflatable.count} </option>
                 ))}
             </select>
         </div>
