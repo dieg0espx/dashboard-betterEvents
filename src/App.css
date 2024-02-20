@@ -634,6 +634,33 @@
   background-color: lightgray;
 }
 
+.calendar-page .booking-popup .action-btns {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 10px;
+  margin: 10px 0;
+}
+.calendar-page .booking-popup .action-btns button {
+  display: block;
+  font-size: 15px;
+  border-radius: 5px;
+  padding: 8px 0;
+  color: gray;
+  background-color: transparent;
+  /* background-color: rgb(234, 234, 234); */
+}
+.calendar-page .booking-popup .action-btns #edit:hover{
+  border: 1px solid #0089BF;
+  color: #0089BF;
+  background-color: white;
+}
+.calendar-page .booking-popup .action-btns #delete:hover{
+  /* border: 1px solid red; */
+  /* color: red; */
+  color: red;
+  background-color: white;
+}
+
 .calendar-page .overlay {
   z-index: 998;
   background-color: rgba(0, 0, 0, 0.2);
@@ -689,7 +716,7 @@
 .popup-newReservation select {
   outline: none;
 }
-.popup-newReservation select, .popup-newReservation .input-field {
+.popup-newReservation .input-field {
   display: block;
   width: calc(100% + 20px);
   height: 45px;
@@ -699,6 +726,16 @@
   border-radius: 5px;
   border: 1px solid lightgray;
   margin-left: -25px;
+}
+.popup-newReservation select {
+  display: block;
+  width: calc(100% + 20px);
+  height: 45px;
+  margin-bottom: 5px;
+  padding-left: 45px;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid lightgray;
 }
 .popup-newReservation .cols {
   display: flex;

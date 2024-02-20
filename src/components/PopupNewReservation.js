@@ -20,17 +20,15 @@ function PopupNewReservation() {
     const [inflatableImage, setInflatableImage] = useState('')
 
 
-    const [name, setName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [phone, setPhone] = useState('')
-    const [email, setEmail] = useState('')
+    const [name, setName] = useState('Diego')
+    const [lastName, setLastName] = useState('Espinosa')
+    const [phone, setPhone] = useState('9999088639')
+    const [email, setEmail] = useState('espinosa9mx@gmail.com')
     const [address, setAddress] = useState('');
     const [coordinates, setCoordinates] = useState([])
     const [bookingDates, setBookingDates] = useState([])
     const [balances, setBalances] = useState([])
-
     const [reservation, setReservation] = useState([])
-
 
     async function getInflatables() {
         let arrayInflatables = [];
@@ -87,20 +85,6 @@ function PopupNewReservation() {
         setAddress(selectedAddress);
         setCoordinates(coordinatesStr)
      };
-    // async function getBusyDates(id){
-    //     console.log('GETTING BUSY DATES ... ');
-    //     let arrayDates = []
-    //     const querySnapshot = await getDocs(collection(db, "bookings"));
-    //     querySnapshot.forEach((doc) => {
-    //       if(selectedInflatable.id == id){
-    //         for (let i = 0; i < doc.data().bookingDates.length; i++) {
-    //           arrayDates.push(new Date(doc.data().bookingDates[i]))
-    //         }
-    //       }
-    //     });
-    //     console.log(arrayDates);
-    //     setBusyDates(arrayDates)
-    // };
     const tileDisabled = ({ date, view }) => {
         // Disable dates before today
         const isBeforeToday = date < new Date();
@@ -167,11 +151,14 @@ function PopupNewReservation() {
     }
     
     async function createReservation(){
+      let rent = bookingDates.length * selectedInflatable.price
+      let insurance = includeInsurance? rent * 0.09 : 0
+      let paid = includeInsurance ? rent + insurance : rent
       let balances = {
         'deposit': 0,
-        'insurance': includeInsurance ? parseFloat(bookingDates.length * selectedInflatable.price * 0.09) : 0,
-        'rent': parseFloat(bookingDates.length * selectedInflatable.price),
-        'paid': includeInsurance ? parseFloat((bookingDates.length * selectedInflatable.price)* 1.09) + 100 : parseFloat(selectedInflatable.price),
+        'insurance': insurance,
+        'rent': rent,
+        'paid': paid,
       }
       let arrayData = {
         name:name, 
@@ -191,6 +178,8 @@ function PopupNewReservation() {
       console.log('DATA: ' + arrayData);    
       const docRef = await addDoc(collection(db, "bookings"), arrayData);
       setReservationID(docRef.id) 
+      alert("Booking Completed Successfully !")
+      window.location.reload()
     }
     async function sendEmailConfirmation(id){
       await fetch('https://better-stays-mailer.vercel.app/api/bebookingConfirmation', {
@@ -256,7 +245,7 @@ function PopupNewReservation() {
     <div className='popup-newReservation'>
         <h2> New Booking </h2>
         <div className='cols'>
-            <i className="bi bi-list-nested iconField"></i>
+            {/* <i className="bi bi-list-nested iconField"></i> */}
             <select onChange={(event) => choosingInflatable(event.target.value)}>
                 <option value="" disabled selected> Select Inflatable</option>
                 {inflatables.map((inflatable) => (
@@ -331,7 +320,7 @@ function PopupNewReservation() {
                         <p> Credit Card </p>
                       </div>
                       </div>
-                      <button id="btnPay" onClick={()=>createReservation()}> {formatCurrency(total)} USD </button>
+                      <button id="btnPay" onClick={()=>createReservation()} style={{display: name.length > 0 && lastName.length > 0 && phone.length > 0 && email.length > 0 && address.length > 0 ? "block":"none"}}> {formatCurrency(total)} USD </button>
                     </>
                  )}
             </div>

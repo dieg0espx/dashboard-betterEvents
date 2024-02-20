@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar'
 import { getFirestore } from 'firebase/firestore';
-import { collection, getDocs, getDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, deleteDoc } from 'firebase/firestore';
 import { doc } from "firebase/firestore";
 import app from '../Firebase';
 import FullCalendar from '@fullcalendar/react';
@@ -132,6 +132,27 @@ function Calendar() {
       setShowNewReservation(false)
     }
 
+    async function deleteBooking(id){
+      let bookingName;
+      let bookingInflatableName;
+      let bookingDates
+
+      for(let i = 0; i < bookings.length; i ++){
+        if(bookings[i].id == id){
+          bookingName = bookings[i].name + ' ' + bookings[i].lastName
+          bookingInflatableName = bookings[i].inflatableName
+          bookingDates = bookings[i].bookingDates
+          break
+        }
+      }
+      
+      const confirm = window.confirm("You are about to delete: \n Customer: " + bookingName + " \n Inflatable: " + bookingInflatableName + ' \n Dates: ' + bookingDates)
+      if(confirm){
+        await deleteDoc(doc(db, "bookings", id));
+        window.location.reload()
+      } 
+    }
+
 
   return (
     <div className='calendar-page'>
@@ -199,6 +220,10 @@ function Calendar() {
                 <p><i className="bi bi-check-circle-fill iconField"></i> Total Paid:</p>
                 <p>{formatCurrency(currentBooking.paid)} </p>
               </div>
+            </div>
+            <div className='action-btns'>
+              {/* <button id="edit"> Edit </button> */}
+              <button id="delete" onClick={()=>deleteBooking(currentBooking.id)}> Delete </button>
             </div>
           </div>
           <div className='overlay' onClick={()=>closeOverlay()} style={{display: showCurrentBooking || showNewReservation? "block":"none"}}></div>
