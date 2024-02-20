@@ -633,6 +633,13 @@
 .calendar-page .booking-popup .balance-row:hover {
   background-color: lightgray;
 }
+.balance-row#total{
+  border-top: 1px solid gray;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-top: 5px;
+
+}
 
 .calendar-page .booking-popup .action-btns {
   display: grid;
@@ -647,6 +654,9 @@
   padding: 8px 0;
   color: gray;
   background-color: transparent;
+  border: 1px solid transparent;
+  width: fit-content;
+  margin: auto;
   /* background-color: rgb(234, 234, 234); */
 }
 .calendar-page .booking-popup .action-btns #edit:hover{

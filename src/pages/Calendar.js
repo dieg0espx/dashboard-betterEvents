@@ -146,7 +146,7 @@ function Calendar() {
         }
       }
       
-      const confirm = window.confirm("You are about to delete: \n Customer: " + bookingName + " \n Inflatable: " + bookingInflatableName + ' \n Dates: ' + bookingDates)
+      const confirm = window.confirm("DO YOU WANT TO DELETE? \n Customer: " + bookingName + " \n Inflatable: " + bookingInflatableName + ' \n Dates: ' + bookingDates)
       if(confirm){
         await deleteDoc(doc(db, "bookings", id));
         window.location.reload()
@@ -216,8 +216,8 @@ function Calendar() {
                 <p><i className="bi bi-check-circle-fill iconField"></i> Inflatable Rent:</p>
                 <p>{formatCurrency(currentBooking.rent)} </p>
               </div>
-              <div className='balance-row'>
-                <p><i className="bi bi-check-circle-fill iconField"></i> Total Paid:</p>
+              <div className='balance-row' id="total">
+                <p><i className="bi bi-check-circle-fill iconField"></i> <b>Total:</b></p>
                 <p>{formatCurrency(currentBooking.paid)} </p>
               </div>
             </div>
