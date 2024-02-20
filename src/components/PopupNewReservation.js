@@ -178,10 +178,14 @@ function PopupNewReservation() {
       console.log('DATA: ' + arrayData);    
       const docRef = await addDoc(collection(db, "bookings"), arrayData);
       setReservationID(docRef.id) 
+      sendEmailConfirmation(docRef.id)
       alert("Booking Completed Successfully !")
       window.location.reload()
     }
     async function sendEmailConfirmation(id){
+      let rent = bookingDates.length * selectedInflatable.price
+      let insurance = includeInsurance? rent * 0.09 : 0
+      let paid = includeInsurance ? rent + insurance : rent
       await fetch('https://better-stays-mailer.vercel.app/api/bebookingConfirmation', {
         method: 'POST',
         body: JSON.stringify({ 
@@ -193,7 +197,7 @@ function PopupNewReservation() {
           dates: bookingDates,
           reservationID: id,
           image: selectedInflatable.image,
-          paid: includeInsurance ? parseFloat(selectedInflatable.price * 1.09) + 100 : parseFloat(selectedInflatable.price) + 100
+          paid: paid
       }), headers: {'Content-Type': 'application/json'}})
     }
     useEffect(()=>{
@@ -324,12 +328,7 @@ function PopupNewReservation() {
                     </>
                  )}
             </div>
-        </div>
-
-            
-        
-
-        
+        </div>        
     </div>
   )
 }

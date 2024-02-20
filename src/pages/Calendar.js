@@ -123,7 +123,6 @@ function Calendar() {
         return 'Invalid Number';
       }
     }
-
     function openNewReservation(){
       setShowNewReservation(true)
     }
