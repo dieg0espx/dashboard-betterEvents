@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from '../components/Sidebar'
 import { getFirestore } from 'firebase/firestore';
-import app from '../Firebase';
+import {app} from '../Firebase';
 import { Link } from "react-router-dom";
 import NewInflatable from '../components/NewInflatable';
 import UpdateInflatable from '../components/UpdateInflatable';

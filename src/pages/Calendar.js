@@ -3,7 +3,7 @@ import Sidebar from '../components/Sidebar'
 import { getFirestore } from 'firebase/firestore';
 import { collection, getDocs, getDoc, deleteDoc } from 'firebase/firestore';
 import { doc } from "firebase/firestore";
-import app from '../Firebase';
+import {app} from '../Firebase';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from'@fullcalendar/daygrid'
 import PopupNewReservation from '../components/PopupNewReservation'

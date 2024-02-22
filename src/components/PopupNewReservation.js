@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { getFirestore } from 'firebase/firestore';
-import app from '../Firebase';
+import {app} from '../Firebase';
 import { doc, setDoc, collection, query, where, getDocs, addDoc  } from "firebase/firestore"; 
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import Calendar from 'react-calendar';

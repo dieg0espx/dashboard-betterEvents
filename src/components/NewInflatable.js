@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Inflatables from '../pages/Inflatables';
 import { getFirestore } from 'firebase/firestore';
 import { collection, getDocs, addDoc } from "firebase/firestore";
-import app from '../Firebase';
+import {app} from '../Firebase';
 
 function NewInflatable() {
     const db = getFirestore(app);
