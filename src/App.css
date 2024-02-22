@@ -1033,6 +1033,84 @@ abbr[title] {
   background-color: #e6e6e6;
 }
 
+
+
+/* ========  LOGIN PAGE ======= */
+
+.wrapper-login {
+  background-color: #072A40;
+  width: 100vw;
+  height: 100vh;
+}
+.wrapper-login .content {
+  border: 1px solid #072A40;
+  border-radius: 10px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 300px;
+  padding: 50px 0;
+}
+.wrapper-login .content img {
+  display: block;
+  width: 70%;
+  margin: 0 auto 70px auto;
+  position: relative;
+  top: 0;
+  animation: logo 2s;
+}
+
+.wrapper-login button {
+  display: block;
+  margin: auto;
+  width: 60%;
+  height: 40px;
+  background-color: #0089BF;
+  color: white;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 18px;
+  position: relative;
+  animation: btn 4s;
+  transition: 0.5s;
+}
+
+.wrapper-login button:hover {
+  background-color: transparent;
+  border: 2px solid #0089BF;
+  color: #0089BF;
+}
+
+
+@keyframes logo {
+  from {
+    top:-80px;
+    filter: opacity(0);
+  }
+  to {
+    top: 0;
+    filter: opacity(1);
+  }
+} 
+
+@keyframes btn {
+  0%{
+    filter: opacity(0);
+  }
+  80% {
+    filter: opacity(0);
+  }
+  to {
+    filter: opacity(1);
+  }
+}
+
+
+
+
 @media screen and (max-width:800px) {
   .react-calendar__tile {
     height: 40px;

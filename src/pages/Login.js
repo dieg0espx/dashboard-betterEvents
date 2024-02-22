@@ -43,12 +43,16 @@ function Login() {
 
     async function googleAuth(){
       signInWithPopup(auth, provider).then(async (data)=>{
+        console.log(data);
         try {
-          const q = query(collection(db, "Users"));
+          const q = query(collection(db, "users"));
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach((doc) => {
             if(doc.data().email == data.user.email){
                 checkUser(doc.data().email)
+                console.log("Access Granted ");
+            } else {
+              console.log('User Not Found');
             }
           });
         } catch (error) {
@@ -60,7 +64,7 @@ function Login() {
   return (
     <div className='wrapper-login'>
         <div className='content'>
-            <img src='https://res.cloudinary.com/dxfi1vj6q/image/upload/v1683933526/Final_Logo_1_byrdtx_m9colt.png'/>
+            <img src='https://res.cloudinary.com/dxfi1vj6q/image/upload/v1705371522/BetterEvents-02_gqzykd_pellx5.png'/>
             <button onClick={()=>googleAuth()}> Login </button>
         </div>
     </div>
