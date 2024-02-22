@@ -77,7 +77,7 @@
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .sidebar img {
-  height: 60%;
+  height: 40px;
 }
 .sidebar .menu {
   display: flex;
@@ -94,6 +94,14 @@
 }
 .sidebar .btn-sidebar:hover {
   color: #0089BF;
+}
+.sidebar .iconMenu {
+  color: white;
+  font-size: 30px;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  display: none;
 }
 
 
@@ -1029,5 +1037,203 @@ abbr[title] {
   .react-calendar__tile {
     height: 40px;
     font-size: 15px;
+  }
+
+  .sidebar {
+    display: block;
+    height: fit-content;
+    padding: 10px 15px;
+    z-index: 999;
+  }
+  .sidebar .static-header {
+    position: fixed;
+    background-color: #072A40;
+    z-index: 999;
+    width: 100%;
+    height: 65px;
+    left: 0;
+    top: 0;
+    padding: 10px;
+  }
+  .sidebar img {
+    height: 35px;
+    margin-bottom: 0px;
+    margin-top: 5px;
+  }
+  .sidebar .menu{
+    display: none;
+    flex-direction: column;
+    margin-bottom: 20px;    
+    position: fixed;
+    left: 0;
+    top: 65px;
+    background-color: #072A40;
+    width: 100%;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    animation: mobileMenu 0.5s;
+  }
+  .sidebar .btn-sidebar {
+    font-size: 18px;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+  }
+  .sidebar .iconMenu {
+    display: block;
+  }
+
+  .inflatables .top-nav {
+    display: flex;
+    gap: 3px;
+    flex-direction: column;
+  }
+  .inflatables .top-nav input {
+    width: 100%;
+  }
+  .inflatables .search-bar {
+    display: flex;
+    align-items: center;
+  }
+  .inflatables .search-bar .iconSearch {
+    position: relative;
+    width: 0;
+  }
+  .inflatables .top-nav button {
+    position: fixed;
+    bottom: 15px;
+    right: 10px;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    font-size: 50px;
+    font-weight: 300;
+    padding: 0;
+    border-radius: 50%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
+  .inflatables .row {
+    width: 95%;
+    margin: 10px auto;
+  }
+  .inflatables .row img{
+    height: 200px;
+  }
+  .inflatables .row #description {
+    max-width: 100%;
+  }
+
+  .popup-newInflatable {
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    top: auto;
+    transform: none;
+    height: 85vh;
+    overflow: auto;
+    display: block;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    animation: slideUp 0.3s;
+  }
+  .popup-newInflatable input, .popup-newInflatable textarea {
+    font-size: 13px;
+  }
+  .popup-newInflatable .title {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .popup-newInflatable #btnDelete {
+    margin: 10px auto;
+    font-size: 15px;
+  }
+
+
+  .calendar-page .content {
+    height: calc(100vh - 80px);
+    padding: 10px;
+  }
+  .fc-view-harness {
+    min-height: 600px;
+    border-bottom: none;
+  }
+  .calendar-page .booking-popup {
+    width: 100%;
+    height: 80vh;
+    top: auto;
+    bottom: 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    animation: slideUp 0.3s;
+  }
+
+
+  .popup-newReservation {
+    width: 100%;
+    padding: 20px;
+    overflow-y: scroll;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    height: 80vh;
+    animation: slideUp 0.3s;
+  }
+  .popup-newReservation .cols {
+    display: block;
+  }
+  .popup-newReservation .input-field {
+    font-size: 13px;
+    margin-left: 0;
+    width: 100%;
+    margin-top: -45px;
+    padding-left: 50px;
+  }
+  .popup-newReservation select {
+    width: 100%;
+    margin: 5px auto;
+  }
+  .popup-newReservation .addressAutoComplete {
+    margin-top: -45px;
+    width: calc(100% - 20px);
+    margin-left: 0;
+  }
+  .popup-newReservation #calendar-description {
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  .popup-newReservation #calendar-description .calendar{
+    margin-bottom: 20px;
+  }
+
+
+
+  .react-calendar {
+    width: 100%;
+    min-width: auto;
+    margin: auto;
+    padding: 10px;
+  }
+  .react-calendar__tile {
+    max-width: calc(100% / 7.7);
+  }
+
+
+}
+
+@keyframes mobileMenu {
+  from {
+    top: -50%
+  }
+  to {
+    top: 60px;
+  }
+}
+@keyframes slideUp {
+  from {
+    bottom: -100%;
+  }
+  to {
+    bottom: 0;
   }
 }

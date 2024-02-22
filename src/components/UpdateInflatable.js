@@ -68,7 +68,7 @@ function UpdateInflatable(props) {
   return (
     <div className='popup-newInflatable'>
          <div className='title'>
-            <h2> Update Infatable Inflatable </h2>
+            <h2> Update Infatable </h2>
             <div className="counter">
                 <button onClick={()=>setCount(count - 1)}> - </button>
                 <p> {count} </p>

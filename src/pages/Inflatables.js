@@ -14,6 +14,7 @@ function Inflatables() {
   const [popup, setPopup] = useState(0)
   const [currentInflatable, setCurrentInflatable] = useState([])
   const [finding, setFinding] = useState('')
+  const [buttonText, setButtonText] = useState('')
 
   async function getInflatables() {
     let arrayInflatables = [];
@@ -86,6 +87,18 @@ function Inflatables() {
     }
   },[popup])
 
+
+  useEffect(() => {
+    const handleResize = () => {
+      setButtonText(window.innerWidth > 800 ? "+ New Inflatable" : "+");
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); 
+
   return (
     <div className='inflatables'>
       <div>
@@ -96,9 +109,11 @@ function Inflatables() {
           <div className='top-nav'>
             <h2> All Inflatables</h2>
             <div>
-              <input type='text' onChange={(e)=>setFinding(e.target.value)} placeholder='Inflatable Name'/>
-              <i className="bi bi-search iconSearch"></i>
-              <button onClick={()=>setPopup(1)}> + New Inflatable </button>
+              <div className='search-bar'>
+                <input type='text' onChange={(e)=>setFinding(e.target.value)} placeholder='Inflatable Name'/>
+                <i className="bi bi-search iconSearch"></i>
+              </div>
+              <button onClick={()=>setPopup(1)}> {buttonText} </button>
             </div>
           </div>
           <div className='list'>
