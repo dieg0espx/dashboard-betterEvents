@@ -10,7 +10,7 @@ import { doc, getDoc } from "firebase/firestore";
 
 
 function Login() {  
-  const apiURL = process.env.REACT_APP_APIURL;
+  const apiURL = "https://server-better-events.vercel.app"
   const db = getFirestore(app);
   const [token, setToken] = useState('')
 
