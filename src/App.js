@@ -7,7 +7,6 @@ import {
   useActionData,
 } from "react-router-dom";
 import Inflatables from './pages/Inflatables';
-import Bookings from './pages/Bookings';
 import Calendar from './pages/Calendar';
 import Login from './pages/Login';
 import ProtectedRoutes from "./ProtectedRoutes";
