@@ -141,6 +141,9 @@
   margin-right: -10px;
   border-radius: 5px;
 }
+.inflatables .top-nav  #right{
+  display: flex;
+}
 .inflatables .iconSearch {
   position: relative;
   left: -20px;
@@ -1168,6 +1171,10 @@ abbr[title] {
   .inflatables .top-nav input {
     width: 100%;
   }
+  .inflatables .top-nav #right {
+    display: block;
+  }
+
   .inflatables .search-bar {
     display: flex;
     align-items: center;

@@ -108,7 +108,7 @@ function Inflatables() {
       <div className='content'>
           <div className='top-nav'>
             <h2> All Inflatables</h2>
-            <div>
+            <div id='right'>
               <div className='search-bar'>
                 <input type='text' onChange={(e)=>setFinding(e.target.value)} placeholder='Inflatable Name'/>
                 <i className="bi bi-search iconSearch"></i>
