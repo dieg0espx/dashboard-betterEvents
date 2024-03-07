@@ -57,13 +57,17 @@ function UpdateInflatable(props) {
         setNewInflatable({ id: props.data.id, name:props.data.name, description:props.data.description, category:props.data.category, price:props.data.price, wetDry:props.data.wetDry, width:props.data.width, height:props.data.height, image:props.data.image, count:props.data.count})
     },[props.data])
 
-    async function deleteInflatable(id, inflatableName){
+    async function deleteInflatable(id, inflatableName) {
         var result = window.confirm("Do you want to delete " + inflatableName + " ?");
         if (result) {
             await deleteDoc(doc(db, "inflatables", id));
-            window.location.reload()
+            await deleteDoc(doc(db, "extras", id));
+            window.location.reload();
         } 
     }
+    
+    
+    
     
   return (
     <div className='popup-newInflatable'>
