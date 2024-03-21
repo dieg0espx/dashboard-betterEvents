@@ -44,7 +44,7 @@ function Calendar() {
         tax: doc.data().balances.tax
       });
       arrayEvents.push({
-        title:doc.data().name + ' ' + doc.data().lastName, 
+        title:doc.data().paid ? 'Paid - ' + doc.data().name + ' ' + doc.data().lastName : 'Pending -  ' +  doc.data().name + ' ' + doc.data().lastName  ,
         subtitle:doc.data().inflatableName, 
         start: new Date((doc.data().bookingDates[0])),
         end: new Date(new Date(doc.data().bookingDates[doc.data().bookingDates.length - 1]).setDate(new Date(doc.data().bookingDates[doc.data().bookingDates.length - 1]).getDate() + 1)),
