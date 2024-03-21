@@ -517,6 +517,10 @@
   margin-top: 60px;
 }
 
+.calendar-page .content {
+  /* border: 1px solid red; */
+}
+
 .wrapper-calendarPage {
   display: grid;
   grid-template-columns: 280px auto;
