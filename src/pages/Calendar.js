@@ -34,12 +34,14 @@ function Calendar() {
         postalCode: doc.data().postalCode,
         inflatableImage: doc.data().inflatableImage,
         inflatableName: doc.data().inflatableName, 
-        deposit: doc.data().balances.deposit,
-        insurance: doc.data().balances.insurance,
-        paid: doc.data().balances.paid,
-        rent: doc.data().balances.rent,
-        method:doc.data().method
+        method:doc.data().method,
 
+        deliveryAmount: doc.data().balances.deliveryAmount, 
+        deliveryFee: doc.data().balances.deliveryFee, 
+        deposit: doc.data().balances.deposit, 
+        insurance: doc.data().balances.insurance, 
+        rent: doc.data().balances.rent, 
+        tax: doc.data().balances.tax
       });
       arrayEvents.push({
         title:doc.data().name + ' ' + doc.data().lastName, 
@@ -212,12 +214,24 @@ function Calendar() {
                 <p>{formatCurrency(currentBooking.insurance)} </p>
               </div>
               <div className='balance-row'>
+                <p><i className="bi bi-check-circle-fill iconField"></i> Delivery Fee:</p>
+                <p>{formatCurrency(currentBooking.deliveryFee)} </p>
+              </div>
+              <div className='balance-row'>
+                <p><i className="bi bi-check-circle-fill iconField"></i> Delivery Amount:</p>
+                <p>{formatCurrency(currentBooking.deliveryAmount)} </p>
+              </div>
+              <div className='balance-row'>
                 <p><i className="bi bi-check-circle-fill iconField"></i> Inflatable Rent:</p>
                 <p>{formatCurrency(currentBooking.rent)} </p>
               </div>
+              <div className='balance-row'>
+                <p><i className="bi bi-check-circle-fill iconField"></i> Tax:</p>
+                <p>{formatCurrency(currentBooking.tax)} </p>
+              </div>
               <div className='balance-row' id="total">
                 <p><i className="bi bi-check-circle-fill iconField"></i> <b>Total:</b></p>
-                <p>{formatCurrency(currentBooking.paid)} </p>
+                <p>{formatCurrency(currentBooking.deposit + currentBooking.insurance + currentBooking.rent + currentBooking.tax + currentBooking.deliveryAmount + currentBooking.deliveryFee)} </p>
               </div>
             </div>
             <div className='action-btns'>
