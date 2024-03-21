@@ -518,7 +518,7 @@
 }
 
 .calendar-page .content {
-  /* border: 1px solid red; */
+  
 }
 
 .wrapper-calendarPage {
@@ -1241,10 +1241,15 @@ abbr[title] {
   .calendar-page .content {
     height: calc(100vh - 80px);
     padding: 10px;
+    width: 250%;
   }
   .fc-view-harness {
     min-height: 600px;
     border-bottom: none;
+    width: 100%;
+  }
+  .fc-dayGridMonth-view{
+    min-width: 100%;
   }
   .calendar-page .booking-popup {
     width: 100%;
