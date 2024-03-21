@@ -47,7 +47,7 @@ function Calendar() {
         start: new Date((doc.data().bookingDates[0])),
         end: new Date(new Date(doc.data().bookingDates[doc.data().bookingDates.length - 1]).setDate(new Date(doc.data().bookingDates[doc.data().bookingDates.length - 1]).getDate() + 1)),
         id:doc.id,
-        backgroundColor:getRandomColor()
+        // backgroundColor:getRandomColor()
       })
       })
       setEvents(arrayEvents)
@@ -69,10 +69,11 @@ function Calendar() {
       const getRandomComponent = () => Math.floor(Math.random() * 128 + 64).toString(16).padStart(2, '0');
       return `#${getRandomComponent()}${getRandomComponent()}${getRandomComponent()}`;
     }
+    
 
     const eventContent = (eventInfo) => {
       return (
-        <div className="custom-event" style={{ borderLeft: `3px solid ${getRandomColor()}`}}>
+        <div className="custom-event" style={{backgroundColor: getRandomColor()}}>
           <div className="event-title">{eventInfo.event.title}</div>
           <div className="event-content">{getInflatableName(eventInfo.event.id)}</div>
         </div>
@@ -130,7 +131,6 @@ function Calendar() {
       setShowCurrentBooking(false)
       setShowNewReservation(false)
     }
-
     async function deleteBooking(id){
       let bookingName;
       let bookingInflatableName;

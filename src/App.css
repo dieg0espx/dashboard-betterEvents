@@ -518,8 +518,9 @@
 }
 
 .calendar-page .content {
-  
+  height: 100vh; 
 }
+
 
 .wrapper-calendarPage {
   display: grid;
@@ -569,21 +570,34 @@
   font-size:13px !important;
 }
 .custom-event {
-  color: gray !important;
+  color: white !important;
   margin-bottom: 2px;
   margin-left: 5px;
-  /* padding-left: 3px; */
   width: 100%;
 }
-
-
+.fc-event {
+  background-color: transparent !important;
+  border: none !important;
+  
+}
+.fc-daygrid-event-harness-abs  {
+  /* border: 1px solid red; */
+}
 .fc-daygrid-event-harness-abs .event-title {
   color: white;
 }
 .fc-daygrid-event-harness-abs .event-content {
   color: white;
 }
+.custom-event {
+  margin: 0px !important;
+  margin-top: -5px;
+  padding-left: 3px;
+  border-radius: 3px;
+  padding: 3px;
+}
 .event-title {
+  color: white;
   text-transform: capitalize;
   font-weight: bold;
   font-size: 10px;
