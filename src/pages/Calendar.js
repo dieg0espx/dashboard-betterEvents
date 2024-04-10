@@ -104,7 +104,7 @@ function Calendar() {
       for(let i =0; i < bookings.length; i ++){
         if(bookings[i].id == id){
           setCurrentBooking(bookings[i])
-          console.log(bookings[i].balances);
+          // console.log(bookings[i].balances);
         }
       }
     }
@@ -156,6 +156,7 @@ function Calendar() {
     }
 
     async function markAsPaid(){
+      let currentId = currentBooking.id
       let alert = window.confirm('Do you want to mark as paid : \nCUSTOMER: ' + currentBooking.name + ' ' + currentBooking.lastName + '\nPRODUCT: ' + currentBooking.inflatableName +  '\nID: ' + currentBooking.id)
       if(alert){
         const bookingRef = doc(db, "bookings", currentBooking.id);
@@ -163,6 +164,7 @@ function Calendar() {
           paid: true
         });
         getBookings()
+        setShowCurrentBooking(false)
       }
     } 
 
