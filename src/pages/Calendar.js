@@ -164,7 +164,7 @@ function Calendar() {
           paid: true
         });
         getBookings()
-        setShowCurrentBooking(false)
+        setShowCurrentBooking(false)  
       }
     } 
 
