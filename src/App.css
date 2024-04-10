@@ -692,6 +692,20 @@
   margin: auto;
   /* background-color: rgb(234, 234, 234); */
 }
+.calendar-page .booking-popup .action-btns #markPaid {
+  display: block;
+  width: 100%;
+  height: 40px;
+  color: white;
+  background-color: #0089BF;
+  border: 2px solid transparent;
+  transition: 0.5s;
+}
+.calendar-page .booking-popup .action-btns #markPaid:hover {
+  border: 2px solid #0089BF;
+  background-color: white;
+  color: #0089BF;
+}
 .calendar-page .booking-popup .action-btns #edit:hover{
   border: 1px solid #0089BF;
   color: #0089BF;
@@ -703,6 +717,21 @@
   color: red;
   background-color: white;
 }
+.calendar-page .action-btns .paidNotice {
+  display: flex;
+  gap: 10px;
+  font-size: 20px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  color: gray;
+}
+
+.calendar-page .action-btns .paidNotice .iconCheck {
+  color: green;
+}
+
 
 .calendar-page .overlay {
   z-index: 998;

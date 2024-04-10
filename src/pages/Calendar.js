@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar'
 import { getFirestore } from 'firebase/firestore';
-import { collection, getDocs, getDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { doc } from "firebase/firestore";
 import {app} from '../Firebase';
 import FullCalendar from '@fullcalendar/react';
@@ -35,6 +35,7 @@ function Calendar() {
         inflatableImage: doc.data().inflatableImage,
         inflatableName: doc.data().inflatableName, 
         method:doc.data().method,
+        paid: doc.data().paid,
 
         deliveryAmount: doc.data().balances.deliveryAmount, 
         deliveryFee: doc.data().balances.deliveryFee, 
@@ -154,6 +155,17 @@ function Calendar() {
       } 
     }
 
+    async function markAsPaid(){
+      let alert = window.confirm('Do you want to mark as paid : \nCUSTOMER: ' + currentBooking.name + ' ' + currentBooking.lastName + '\nPRODUCT: ' + currentBooking.inflatableName +  '\nID: ' + currentBooking.id)
+      if(alert){
+        const bookingRef = doc(db, "bookings", currentBooking.id);
+        await updateDoc(bookingRef, {
+          paid: true
+        });
+        getBookings()
+      }
+    } 
+
 
   return (
     <div className='calendar-page'>
@@ -235,7 +247,11 @@ function Calendar() {
               </div>
             </div>
             <div className='action-btns'>
-              {/* <button id="edit"> Edit </button> */}
+              <div className='paidNotice' style={{display: currentBooking.paid == false ? "none":"flex "}}>
+                <p> <i className="bi bi-check-circle-fill iconCheck"></i></p>
+                <p> Payment Completed </p>
+              </div>
+              <button id="markPaid" onClick={()=> markAsPaid(currentBooking.id)} style={{display: currentBooking.paid == false ? "block":"none"}}> Mark As Paid </button>
               <button id="delete" onClick={()=>deleteBooking(currentBooking.id)}> Delete </button>
             </div>
           </div>
