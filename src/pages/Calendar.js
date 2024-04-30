@@ -43,7 +43,8 @@ function Calendar() {
         insurance: doc.data().balances.insurance, 
         rent: doc.data().balances.rent, 
         tax: doc.data().balances.tax, 
-        specificTime: doc.data().specificTime
+        specificTime: doc.data().specificTime, 
+        created:doc.data().created
       });
       arrayEvents.push({
         title:doc.data().paid ? 'Paid - ' + doc.data().name + ' ' + doc.data().lastName : 'Pending -  ' +  doc.data().name + ' ' + doc.data().lastName  ,
@@ -56,8 +57,8 @@ function Calendar() {
       })
       setEvents(arrayEvents)
       setBookings(arrayBookings);
+      checkExpiredBookings()
     }
-
     useEffect(()=>{
         getBookings()
     },[])
@@ -74,7 +75,6 @@ function Calendar() {
       return `#${getRandomComponent()}${getRandomComponent()}${getRandomComponent()}`;
     }
     
-
     const eventContent = (eventInfo) => {
       return (
         <div className="custom-event" style={{backgroundColor: getRandomColor()}}>
@@ -83,7 +83,6 @@ function Calendar() {
         </div>
       );
     };
-
     function getInflatableName(id){
       for(let i=0; i < bookings.length; i ++){
         if(bookings[i].id == id){
@@ -169,6 +168,24 @@ function Calendar() {
       }
     } 
 
+    // function checkExpiredBookings(){
+    //   for(let i = 0; i < bookings.length; i++){
+    //     const dateStr = bookings[i].created.split(' |')[0];
+    //     const date = new Date(dateStr); // Convert string to Date object
+    //     compareDates(bookings[i].id, date);
+    //   }
+    // }
+
+    // function compareDates(id, date){
+    //   const oneDay = 24 * 60 * 60 * 1000;
+    //   const diffDays = Math.round(Math.abs((new Date() - date) / oneDay));
+
+    //   if (diffDays > 2) {
+    //     console.log('CANCELING: ' + id);
+    //   } else {
+    //     console.log('ON TIME');
+    //   }
+    // }
 
   return (
     <div className='calendar-page'>
