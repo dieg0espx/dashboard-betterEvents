@@ -42,7 +42,8 @@ function Calendar() {
         deposit: doc.data().balances.deposit, 
         insurance: doc.data().balances.insurance, 
         rent: doc.data().balances.rent, 
-        tax: doc.data().balances.tax
+        tax: doc.data().balances.tax, 
+        specificTime: doc.data().specificTime
       });
       arrayEvents.push({
         title:doc.data().paid ? 'Paid - ' + doc.data().name + ' ' + doc.data().lastName : 'Pending -  ' +  doc.data().name + ' ' + doc.data().lastName  ,
@@ -214,6 +215,21 @@ function Calendar() {
               ))}
             </div>
             <div className='field'>
+              <p className='label'> Delivery Time </p>
+              <p className='value'> <i className="bi bi-clock iconField"></i> {currentBooking.specificTime} -   
+                {currentBooking.deliveryFee == 125 ? (
+                    ' Exact Time'
+                  ) : currentBooking.deliveryFee == 75 ? (
+                    ' 1 Hour Frame'
+                  ) : currentBooking.deliveryFee == 50 ? (
+                    ' 2 Hour Frame'
+                  ) : (
+                    ' No Restriction'
+                  )
+                }
+              </p>
+            </div>
+            <div className='field'>
               <p className='label'> Payment Method </p>
               <p className='value'> <i className="bi bi-bank iconField"></i> {currentBooking.method} </p>
             </div>
@@ -228,11 +244,11 @@ function Calendar() {
                 <p>{formatCurrency(currentBooking.insurance)} </p>
               </div>
               <div className='balance-row'>
-                <p><i className="bi bi-check-circle-fill iconField"></i> Delivery Fee:</p>
+                <p><i className="bi bi-check-circle-fill iconField"></i> Time Frame:</p>
                 <p>{formatCurrency(currentBooking.deliveryFee)} </p>
               </div>
               <div className='balance-row'>
-                <p><i className="bi bi-check-circle-fill iconField"></i> Delivery Amount:</p>
+                <p><i className="bi bi-check-circle-fill iconField"></i> Delivery Fee:</p>
                 <p>{formatCurrency(currentBooking.deliveryAmount)} </p>
               </div>
               <div className='balance-row'>
