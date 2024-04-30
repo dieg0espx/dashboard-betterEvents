@@ -57,7 +57,6 @@ function Calendar() {
       })
       setEvents(arrayEvents)
       setBookings(arrayBookings);
-      checkExpiredBookings()
     }
     useEffect(()=>{
         getBookings()
