@@ -16,11 +16,11 @@ function App() {
     <div>
         <Router>
           <Routes>
-            <Route path="/" element={<ProtectedRoutes />}>
+            {/* <Route path="/" element={<ProtectedRoutes />}> */}
               <Route index element={<Calendar />} />
               <Route path="/inflatables" element={<Inflatables />} />
               <Route path="/bookings" element={<Calendar />} />
-            </Route>
+            {/* </Route> */}
             <Route path="/login" element={<Login />} />
           </Routes>
         </Router>

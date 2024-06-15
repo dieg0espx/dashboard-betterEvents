@@ -13,51 +13,145 @@ function Calendar() {
     const [events, setEvents] = useState([])
     const [bookings, setBookings] = useState([])
     const [currentBooking, setCurrentBooking] = useState([])
+    const [inflatables, setInflatables] = useState([])
     const [showCurrentBooking, setShowCurrentBooking]= useState(false)
     const [showNewReservation, setShowNewReservation] = useState(false)
 
-    async function getBookings(){
-      const querySnapshot = await getDocs(collection(db, 'bookings'));
+    // async function getBookings(){
+    //   console.log('GETTING BOOKINGS ...');
+    //   const querySnapshot = await getDocs(collection(db, 'bookings-test'));
+    //   let arrayBookings = [];
+    //   let arrayEvents = []
+
+    //   querySnapshot.docs.map(async (doc) => {
+    //     let booking = doc.data()
+
+    //     // FETCHING CUTOMER + BOOKING + INFLATABLES
+    //     arrayBookings.push({
+    //       id: doc.id,
+    //       address: booking.address,
+    //       email: booking.email,
+    //       lastName: booking.lastName,
+    //       name: booking.name,
+    //       phone: booking.phone,
+    //       method: booking.method,
+    //       paid: booking.paid,
+    //       specificTime: booking.specificTime,
+    //       floorType: booking.floorType,
+    //       created: booking.created,
+    //       damageWaiver: booking.balances.damageWaiver, 
+    //       deliveryAmount: booking.balances.deliveryAmount,
+    //       deliveryFee: booking.balances.deliveryFee,
+    //       deposit: booking.balances.deposit,
+    //       insurance: booking.balances.insurance,
+    //       rent: booking.balances.rent,
+    //       tax: booking.balances.tax,
+    //       total: booking.balances.damageWaiver + booking.balances.deliveryAmount + booking.balances.deliveryFee + booking.balances.insurance +  booking.balances.rent +  booking.balances.tax, 
+    //       inflatables: booking.inflatables.map((inflatable) => ({
+    //         bookedDates: inflatable.bookingDates ? [...inflatable.bookingDates] : [],
+    //         inflatableID: inflatable.inflatableID,
+    //         inflatableName: inflatable.inflatableName,
+    //         inflatableImage: inflatable.inflatableImage
+    //       }))
+    //     });
+        
+    //     // CREATING EVENT
+    //     for(let i = 0; i < booking.inflatables.length; i ++){
+    //       let inflatable = booking.inflatables[i];
+    //       arrayEvents.push({
+    //         title:booking.name + ' ' + booking.lastName  ,
+    //         start: new Date(inflatable.bookingDates[0]),
+    //         end: new Date(inflatable.bookingDates[inflatable.bookingDates.length - 1]).setDate(new Date(inflatable.bookingDates[inflatable.bookingDates.length - 1]).getDate() + 1),
+    //         id:doc.id,
+    //         extendedProps: {
+    //           subtitle:booking.inflatables[i].inflatableName,  
+    //           paid: booking.paid, 
+    //           background: getRandomColor()
+    //         }
+    //       })
+    //     }
+    //   })
+
+    //   setEvents(arrayEvents)
+    //   setBookings(arrayBookings);
+    // }
+    async function getBookings() {
+      console.log('GETTING BOOKINGS ...');
+      const querySnapshot = await getDocs(collection(db, 'bookings-test'));
       let arrayBookings = [];
-      let arrayEvents = []
+      let arrayEvents = [];
+      let idToColorMap = {}; // Object to store the mapping of IDs to colors
+    
+      // Function to generate random colors
+      function getRandomColor() {
+        let r, g, b;
+        do {
+          r = Math.floor(Math.random() * 256);
+          g = Math.floor(Math.random() * 256);
+          b = Math.floor(Math.random() * 256);
+        } while ((r + g + b) > 600); // Sum threshold to avoid super bright colors
+        return `rgb(${r},${g},${b})`;
+      }
     
       querySnapshot.docs.map(async (doc) => {
-      arrayBookings.push({
-        id: doc.id,
-        address: doc.data().address,
-        bookingDates: doc.data().bookingDates,
-        email: doc.data().email,
-        inflatableID: doc.data().inflatableID,
-        lastName: doc.data().lastName,
-        name: doc.data().name,
-        phone: doc.data().phone,
-        postalCode: doc.data().postalCode,
-        inflatableImage: doc.data().inflatableImage,
-        inflatableName: doc.data().inflatableName, 
-        method:doc.data().method,
-        paid: doc.data().paid,
-
-        deliveryAmount: doc.data().balances.deliveryAmount, 
-        deliveryFee: doc.data().balances.deliveryFee, 
-        deposit: doc.data().balances.deposit, 
-        insurance: doc.data().balances.insurance, 
-        rent: doc.data().balances.rent, 
-        tax: doc.data().balances.tax, 
-        specificTime: doc.data().specificTime, 
-        created:doc.data().created
+        let booking = doc.data();
+    
+        // FETCHING CUSTOMER + BOOKING + INFLATABLES
+        arrayBookings.push({
+          id: doc.id,
+          address: booking.address,
+          email: booking.email,
+          lastName: booking.lastName,
+          name: booking.name,
+          phone: booking.phone,
+          method: booking.method,
+          paid: booking.paid,
+          specificTime: booking.specificTime,
+          floorType: booking.floorType,
+          created: booking.created,
+          damageWaiver: booking.balances.damageWaiver,
+          deliveryAmount: booking.balances.deliveryAmount,
+          deliveryFee: booking.balances.deliveryFee,
+          deposit: booking.balances.deposit,
+          insurance: booking.balances.insurance,
+          rent: booking.balances.rent,
+          tax: booking.balances.tax,
+          total: booking.balances.damageWaiver + booking.balances.deliveryAmount + booking.balances.deliveryFee + booking.balances.insurance + booking.balances.rent + booking.balances.tax,
+          inflatables: booking.inflatables.map((inflatable) => ({
+            bookedDates: inflatable.bookingDates ? [...inflatable.bookingDates] : [],
+            inflatableID: inflatable.inflatableID,
+            inflatableName: inflatable.inflatableName,
+            inflatableImage: inflatable.inflatableImage
+          }))
+        });
+    
+        // CREATING EVENT
+        for (let i = 0; i < booking.inflatables.length; i++) {
+          let inflatable = booking.inflatables[i];
+    
+          // Assign a consistent color for each ID
+          if (!idToColorMap[doc.id]) {
+            idToColorMap[doc.id] = getRandomColor();
+          }
+    
+          arrayEvents.push({
+            title: booking.name + ' ' + booking.lastName,
+            start: new Date(inflatable.bookingDates[0]),
+            end: new Date(new Date(inflatable.bookingDates[inflatable.bookingDates.length - 1]).setDate(new Date(inflatable.bookingDates[inflatable.bookingDates.length - 1]).getDate() + 1)),
+            id: doc.id,
+            extendedProps: {
+              subtitle: booking.inflatables[i].inflatableName,
+              paid: booking.paid,
+              background: idToColorMap[doc.id] // Use the consistent color from the mapping
+            }
+          });
+        }
       });
-      arrayEvents.push({
-        title:doc.data().paid ? 'Paid - ' + doc.data().name + ' ' + doc.data().lastName : 'Pending -  ' +  doc.data().name + ' ' + doc.data().lastName  ,
-        subtitle:doc.data().inflatableName, 
-        start: new Date((doc.data().bookingDates[0])),
-        end: new Date(new Date(doc.data().bookingDates[doc.data().bookingDates.length - 1]).setDate(new Date(doc.data().bookingDates[doc.data().bookingDates.length - 1]).getDate() + 1)),
-        id:doc.id,
-        // backgroundColor:getRandomColor()
-      })
-      })
-      setEvents(arrayEvents)
+    
+      setEvents(arrayEvents);
       setBookings(arrayBookings);
     }
+    
     useEffect(()=>{
         getBookings()
     },[])
@@ -76,9 +170,9 @@ function Calendar() {
     
     const eventContent = (eventInfo) => {
       return (
-        <div className="custom-event" style={{backgroundColor: getRandomColor()}}>
+        <div className="custom-event" style={{backgroundColor: eventInfo.event.extendedProps.background}}>
           <div className="event-title">{eventInfo.event.title}</div>
-          <div className="event-content">{getInflatableName(eventInfo.event.id)}</div>
+          <div className="event-content"> {eventInfo.event.extendedProps.subtitle} </div>
         </div>
       );
     };
@@ -119,13 +213,13 @@ function Calendar() {
     
       // Check if the parsedNumber is a valid number
       if (!isNaN(parsedNumber)) {
-        // Use toFixed to round to two decimal places and add $ sign
-        return `$${parsedNumber.toFixed(2)}`;
+        // Use toFixed to round to two decimal places, add commas for thousands, and add $ sign
+        return `$${parsedNumber.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
       } else {
         // Handle the case where the input is not a valid number
         return 'Invalid Number';
       }
-    }
+    } 
     function openNewReservation(){
       setShowNewReservation(true)
     }
@@ -133,58 +227,45 @@ function Calendar() {
       setShowCurrentBooking(false)
       setShowNewReservation(false)
     }
-    async function deleteBooking(id){
+    async function deleteBooking(){
       let bookingName;
       let bookingInflatableName;
-      let bookingDates
-
+      let bookingDates;
+    
       for(let i = 0; i < bookings.length; i ++){
-        if(bookings[i].id == id){
-          bookingName = bookings[i].name + ' ' + bookings[i].lastName
-          bookingInflatableName = bookings[i].inflatableName
-          bookingDates = bookings[i].bookingDates
-          break
+        if(bookings[i].id === currentBooking.id){
+          bookingName = bookings[i].name + ' ' + bookings[i].lastName;
+          bookingInflatableName = bookings[i].inflatables[0].inflatableName; // Assuming inflatableName exists in the first inflatable
+          bookingDates = bookings[i].inflatables[0].bookedDates; // Assuming bookedDates exists in the first inflatable
+          break;
         }
       }
       
-      const confirm = window.confirm("DO YOU WANT TO DELETE? \n Customer: " + bookingName + " \n Inflatable: " + bookingInflatableName + ' \n Dates: ' + bookingDates)
-      if(confirm){
-        await deleteDoc(doc(db, "bookings", id));
-        window.location.reload()
+      const confirmDelete = window.confirm("DO YOU WANT TO DELETE? \n Customer: " + bookingName + " \n Inflatable: " + bookingInflatableName + ' \n Dates: ' + bookingDates);
+      if(confirmDelete){
+        await deleteDoc(doc(db, "bookings-test", currentBooking.id));
+        setShowCurrentBooking(false)
+        getBookings()
       } 
     }
-
-    async function markAsPaid(){
-      let currentId = currentBooking.id
-      let alert = window.confirm('Do you want to mark as paid : \nCUSTOMER: ' + currentBooking.name + ' ' + currentBooking.lastName + '\nPRODUCT: ' + currentBooking.inflatableName +  '\nID: ' + currentBooking.id)
-      if(alert){
-        const bookingRef = doc(db, "bookings", currentBooking.id);
+    async function markAsPaid() {
+      let currentId = currentBooking.id;
+      let alert = window.confirm('Do you want to mark as paid : \nCUSTOMER: ' + currentBooking.name + ' ' + currentBooking.lastName + '\nPRODUCT: ' + currentBooking.inflatableName + '\nID: ' + currentBooking.id);
+      
+      if (alert) {
+        const bookingRef = doc(db, "bookings-test", currentBooking.id);
         await updateDoc(bookingRef, {
           paid: true
         });
-        getBookings()
-        setShowCurrentBooking(false)  
+        setCurrentBooking(prevBooking => ({
+          ...prevBooking,
+          paid: true
+        }));
+        getBookings();
+        setShowCurrentBooking(true);
       }
-    } 
-
-    // function checkExpiredBookings(){
-    //   for(let i = 0; i < bookings.length; i++){
-    //     const dateStr = bookings[i].created.split(' |')[0];
-    //     const date = new Date(dateStr); // Convert string to Date object
-    //     compareDates(bookings[i].id, date);
-    //   }
-    // }
-
-    // function compareDates(id, date){
-    //   const oneDay = 24 * 60 * 60 * 1000;
-    //   const diffDays = Math.round(Math.abs((new Date() - date) / oneDay));
-
-    //   if (diffDays > 2) {
-    //     console.log('CANCELING: ' + id);
-    //   } else {
-    //     console.log('ON TIME');
-    //   }
-    // }
+    }
+    
 
   return (
     <div className='calendar-page'>
@@ -192,101 +273,78 @@ function Calendar() {
             <Sidebar />    
         </div>
         <div className='content'>
-          <FullCalendar plugins={[dayGridPlugin]} initialView='dayGridMonth' eventClick={handleEventClick} events={events} eventContent={eventContent} />
-          <div className='booking-popup' style={{display: showCurrentBooking? "block":"none"}}>
-            <div className='img-container'>
-              <img src={currentBooking.inflatableImage} />
-            </div>
-            <div className='field'>
-              <p className='label'> Inflatable </p>
-              <p className='value'> <i className="bi bi-list-nested iconName"></i>  {currentBooking.inflatableName} </p>
-            </div>
-            <div className='field'>
-              <p className='label'> Booking Id </p>
-              <p className='value'> <i className="bi bi-list-nested iconField"></i> {currentBooking.id} </p>
-            </div>
-            <div className='field'>
-              <p className='label'> Customer Name </p>
-              <p className='value'> <i className="bi bi-person iconField"></i> {currentBooking.name} {currentBooking.lastName} </p>
-            </div>
-            <div className='field'>
-              <p className='label'> Customer Phone </p>
-              <p className='value'> <i className="bi bi-telephone iconField"></i> {currentBooking.phone} </p>
-            </div>
-            <div className='field'>
-              <p className='label'> Customer Email </p>
-              <p className='value'> <i className="bi bi-envelope iconField"></i> {currentBooking.email} </p>
-            </div>
-            <div className='field clickeable' onClick={()=>window.location.href = "https://www.google.com/maps/place/" + currentBooking.address}>
-              <p className='label'> Delivery Address </p>
-              <p className='value'> <i className="bi bi-geo-alt iconField"></i> {currentBooking.address}</p>
-            </div>
-            <div className='field'>
-              <p className='label'> Booking Dates </p>
-              {currentBooking.bookingDates?.map((date, index) => (
-                <React.Fragment key={index}>                  
-                  <i className="bi bi-calendar2-week iconField"></i> {strToDate(date)}
-                  <br></br>
-                </React.Fragment>
-              ))}
-            </div>
-            <div className='field'>
-              <p className='label'> Delivery Time </p>
-              <p className='value'> <i className="bi bi-clock iconField"></i> {currentBooking.specificTime} -   
-                {currentBooking.deliveryFee == 125 ? (
-                    ' Exact Time'
-                  ) : currentBooking.deliveryFee == 75 ? (
-                    ' 1 Hour Frame'
-                  ) : currentBooking.deliveryFee == 50 ? (
-                    ' 2 Hour Frame'
-                  ) : (
-                    ' No Restriction'
-                  )
-                }
-              </p>
-            </div>
-            <div className='field'>
-              <p className='label'> Payment Method </p>
-              <p className='value'> <i className="bi bi-bank iconField"></i> {currentBooking.method} </p>
-            </div>
-            <div className='field'>
-              <p className='label'> Balances </p>
-              <div className='balance-row'>
-                <p><i className="bi bi-check-circle-fill iconField"></i> Deposit:</p>
-                <p>{formatCurrency(currentBooking.deposit)} </p>
+          <FullCalendar height={'auto'}  plugins={[dayGridPlugin]} initialView='dayGridMonth' eventClick={handleEventClick} events={events} eventContent={eventContent} />
+          <div className={showCurrentBooking ? "booking-popup" : "closing-booking-popup"}>
+            <button id="btn-closePopup" onClick={()=>setShowCurrentBooking(false)}> <i className="bi bi-chevron-left"></i>   </button>
+            <div className='main-grid'>
+              <div id="left">
+                <h2> Customer Information </h2>
+                <p> <b> Full Name: </b>{currentBooking.name} {currentBooking.lastName} </p>
+                <p> <b> Phone: </b> <span onClick={()=>window.location.href = "tel:" + currentBooking.phone} className='clickeable'>{currentBooking.phone}</span> </p>
+                <p> <b> Email: </b> <span onClick={()=>window.location.href = "mailto:" + currentBooking.email} className='clickeable'> {currentBooking.email}</span> </p>
+                <p> <b> Address: </b> <span onClick={()=>window.location.href = "https://www.google.com/maps/place/" + currentBooking.address} className='clickeable'>{currentBooking.address} </span></p>
+
+                <h2> Booking Information: </h2>
+                <p> <b> Booking ID: </b> {currentBooking.id} </p>
+                <p> <b> Created: </b> {currentBooking.created} </p>
+                <p> <b> Delivery Time: </b> {currentBooking.specificTime} </p>
+                <p> <b> Time Frame: </b> 
+                  {currentBooking.deliveryAmount == 125 ? (
+                      ' Exact Time'
+                    ) : currentBooking.deliveryFee == 75 ? (
+                      ' 1 Hour Frame'
+                    ) : currentBooking.deliveryFee == 50 ? (
+                      ' 2 Hour Frame'
+                    ) : (
+                      ' No Restriction'
+                    )
+                  }
+                </p>
+                <p> <b> Floor Type: </b> {currentBooking.floorType} </p>
+
+                <h2>Booking Elements</h2>
+                {currentBooking && currentBooking.inflatables ? (
+                  currentBooking.inflatables.map((inflatable, index) => (
+                    <div key={index} className="inflatable">
+                     <img src={inflatable.inflatableImage} alt={inflatable.inflatableName} />
+                      <div>
+                        <p><b>Inflatable ID:</b> {inflatable.inflatableID}</p>
+                        <p><b>Inflatable Name:</b> {inflatable.inflatableName}</p>
+                        <p><b>Booked Dates:</b> {inflatable.bookedDates.join(' > ')}</p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p>No inflatables booked.</p>
+                )}
+
               </div>
-              <div className='balance-row'>
-                <p><i className="bi bi-check-circle-fill iconField"></i> Damage Waiver:</p>
-                <p>{formatCurrency(currentBooking.insurance)} </p>
+              <div id="right">
+                <div className='balance-payment'>
+                  <p> Balance due </p>
+                  <h3> {!currentBooking.paid ? formatCurrency(currentBooking.total - 100) : formatCurrency(0)}</h3>
+                </div>
+
+                <h2> Balances </h2>
+                <p className='balance'> <b> Rent: </b> {formatCurrency(currentBooking.rent)}</p>
+                <p className='balance'> <b> Damage Waiver: </b> {formatCurrency(currentBooking.damageWaiver)}</p>
+                <p className='balance'> <b> Time Frame Delivery: </b> {formatCurrency(currentBooking.deliveryAmount)}</p>
+                <p className='balance'> <b> Delivery Fee: </b> {formatCurrency(currentBooking.deliveryFee)}</p>
+                <p className='balance'> <b> Deposit: </b> {formatCurrency(currentBooking.deposit)}</p>
+                <p className='balance'> <b> Insurance: </b> {formatCurrency(currentBooking.insurance)}</p>
+                <p className='balance'> <b> Tax: </b> {formatCurrency(currentBooking.tax)}</p>
+                <p className='balance'> <b> Total: </b> <b>{formatCurrency(currentBooking.total)}</b></p>
+
+                <h2> Actions </h2>
+                <div className='grid-actions'>
+                  <button id="markPaid" onClick={()=>markAsPaid()} style={{display: currentBooking.paid ? 'none':'block'}}> Mark As Paid </button>
+                  <button id="delete" onClick={()=>deleteBooking()}> Delete Booking </button>
+                </div>
+
+
+
+
               </div>
-              <div className='balance-row'>
-                <p><i className="bi bi-check-circle-fill iconField"></i> Time Frame:</p>
-                <p>{formatCurrency(currentBooking.deliveryFee)} </p>
-              </div>
-              <div className='balance-row'>
-                <p><i className="bi bi-check-circle-fill iconField"></i> Delivery Fee:</p>
-                <p>{formatCurrency(currentBooking.deliveryAmount)} </p>
-              </div>
-              <div className='balance-row'>
-                <p><i className="bi bi-check-circle-fill iconField"></i> Inflatable Rent:</p>
-                <p>{formatCurrency(currentBooking.rent)} </p>
-              </div>
-              <div className='balance-row'>
-                <p><i className="bi bi-check-circle-fill iconField"></i> Tax:</p>
-                <p>{formatCurrency(currentBooking.tax)} </p>
-              </div>
-              <div className='balance-row' id="total">
-                <p><i className="bi bi-check-circle-fill iconField"></i> <b>Total:</b></p>
-                <p>{formatCurrency(currentBooking.deposit + currentBooking.insurance + currentBooking.rent + currentBooking.tax + currentBooking.deliveryAmount + currentBooking.deliveryFee)} </p>
-              </div>
-            </div>
-            <div className='action-btns'>
-              <div className='paidNotice' style={{display: currentBooking.paid == false ? "none":"flex "}}>
-                <p> <i className="bi bi-check-circle-fill iconCheck"></i></p>
-                <p> Payment Completed </p>
-              </div>
-              <button id="markPaid" onClick={()=> markAsPaid(currentBooking.id)} style={{display: currentBooking.paid == false ? "block":"none"}}> Mark As Paid </button>
-              <button id="delete" onClick={()=>deleteBooking(currentBooking.id)}> Delete </button>
             </div>
           </div>
           <div className='overlay' onClick={()=>closeOverlay()} style={{display: showCurrentBooking || showNewReservation? "block":"none"}}></div>

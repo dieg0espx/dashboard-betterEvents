@@ -571,7 +571,7 @@
 }
 .custom-event {
   color: white !important;
-  margin-bottom: 2px;
+  /* margin-bottom: 2px; */
   margin-left: 5px;
   width: 100%;
 }
@@ -590,37 +590,183 @@
   color: white;
 }
 .custom-event {
-  margin: 0px !important;
-  margin-top: -5px;
+  margin: 0 !important;
   padding-left: 3px;
-  border-radius: 3px;
+  border-radius: 5px;
   padding: 3px;
 }
 .event-title {
   color: white;
   text-transform: capitalize;
   font-weight: bold;
-  font-size: 10px;
+  font-size: 12px;
   margin-top: 2px;
   padding-left: 3px;
 }
 .event-content {
-  font-size: 10px;
+  font-size: 12px;
   padding-left: 3px;
 }
 
-.calendar-page .booking-popup {
+
+.calendar-page .booking-popup #btn-closePopup {
+  display:flex;
+  gap: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  color: gray;
+}
+.calendar-page .booking-popup #btn-closePopup:hover {
+  color: #0089BF;
+}
+
+
+.calendar-page .booking-popup, .calendar-page .closing-booking-popup {
   position: fixed;
   right: 0;
   top: 60px;
-  width: 400px;
+  width: 100vw;
   height: 100vh;
-  padding: 0 20px 100px 20px;
+  padding: 20px 20px 100px 20px;
   background-color: white;
   z-index: 999;
-  animation: currentBooking 0.3s;
   overflow-y: scroll;
 }
+
+.calendar-page .booking-popup {
+  animation: currentBooking 0.5s forwards;
+}
+
+.calendar-page .closing-booking-popup {
+  animation: closeCurrentBooking 0.3s forwards;
+}
+
+@keyframes currentBooking {
+  from {
+    right: -100vw;
+  }
+  to {
+    right: 0;
+  }
+}
+
+@keyframes closeCurrentBooking {
+  from {
+    right: 0;
+  }
+  to {
+    right: -100vw;
+  }
+}
+
+.booking-popup .main-grid {
+  display: grid;
+  grid-template-columns: 60% auto;
+  height: 100%;
+  width: 90%;
+  max-width: 1600px;
+  margin: auto;
+}
+.booking-popup .main-grid b{
+  font-weight: 600;
+}
+.booking-popup .main-grid .clickeable:hover{
+  color: #0089BF;
+}
+.booking-popup .main-grid #left, .booking-popup .main-grid #right {
+  padding: 20px;
+}
+
+.booking-popup .main-grid #left {
+  border-right: 1px solid lightgray;
+}
+
+.booking-popup .main-grid h2{
+  margin:30px 0 10px 0;
+  border-bottom: 1px solid lightgray;
+  font-size: 15px;
+  font-weight: 500;
+  color: gray;
+}
+
+
+.booking-popup .main-grid .inflatable {
+  border: 1px solid lightgray;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.booking-popup .main-grid .inflatable img{
+  width: 100px;
+}
+
+
+.booking-popup .main-grid #right .balance {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid lightgray;
+  padding: 5px;
+}
+.booking-popup .main-grid #right .balance:hover {
+  background-color: lightgray;
+}
+
+.booking-popup .main-grid #right .balance-payment {
+  text-align: center;
+  margin-top: 30px;
+}
+.booking-popup .main-grid #right .balance-payment p {
+  color: gray;
+}
+.booking-popup .main-grid #right .balance-payment h3{
+  font-size: 80px;
+  font-weight: 400;
+  color: gray;
+  margin-top: -10px;
+}
+.booking-popup .main-grid #right .grid-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  margin-top: 20px;
+}
+.booking-popup .main-grid #right button {
+  display: block;
+  width: 100%;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+}
+.booking-popup .main-grid #right #markPaid {
+  background-color: #0089BF;
+  color: white;
+}
+.booking-popup .main-grid #right #markPaid:hover{
+  background-color: white;
+  color: #0089BF;
+  border-color: #0089BF;
+}
+.booking-popup .main-grid #right #delete {
+  background-color: #ffd8d8;
+  color: red;
+}
+.booking-popup .main-grid #right #delete:hover {
+  background-color: white;
+  color: red;
+  border-color: red;
+}
+
+
+
+
+
+
 .calendar-page .booking-popup .img-container {
   width: 90%;
   height: 200px;
@@ -738,14 +884,7 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-@keyframes currentBooking {
-  from {
-    right: -400px
-  }
-  to {
-    right: 0;
-  }
-}
+
 .clickeable {
   cursor: pointer;
 }
@@ -1373,4 +1512,9 @@ abbr[title] {
   to {
     bottom: 0;
   }
+}
+
+
+.fc-day {
+  height: 120px !important;
 }
