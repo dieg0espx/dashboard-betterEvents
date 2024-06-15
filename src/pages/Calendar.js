@@ -322,7 +322,7 @@ function Calendar() {
               <div id="right">
                 <div className='balance-payment'>
                   <p> Balance due </p>
-                  <h3> {!currentBooking.paid ? formatCurrency(currentBooking.total - 100) : formatCurrency(0)}</h3>
+                  <h3> {!currentBooking.paid ? formatCurrency(currentBooking.total) : formatCurrency(0)}</h3>
                 </div>
 
                 <h2> Balances </h2>
