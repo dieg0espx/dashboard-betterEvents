@@ -116,7 +116,7 @@ function Calendar() {
           insurance: booking.balances.insurance,
           rent: booking.balances.rent,
           tax: booking.balances.tax,
-          total: booking.balances.damageWaiver + booking.balances.deliveryAmount + booking.balances.deliveryFee + booking.balances.insurance + booking.balances.rent + booking.balances.tax,
+          total: booking.balances.damageWaiver + booking.balances.deliveryAmount + booking.balances.deliveryFee + booking.balances.insurance + booking.balances.rent + booking.balances.tax - booking.balances.deposit,
           inflatables: booking.inflatables.map((inflatable) => ({
             bookedDates: inflatable.bookingDates ? [...inflatable.bookingDates] : [],
             inflatableID: inflatable.inflatableID,
