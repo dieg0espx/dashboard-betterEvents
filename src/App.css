@@ -1540,3 +1540,16 @@ abbr[title] {
 .switch {
   transform: scale(0.7);
 }
+
+@media screen and (max-width: 800px) {
+  .configuration-page .switch-grid {
+    grid-template-columns: 50px auto;
+    gap: 10px;
+  }
+  .configuration-page h2 {
+    font-size: 15px;
+  }
+  .configuration-page p {
+    font-size: 10px;
+  }
+}
