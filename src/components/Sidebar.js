@@ -24,6 +24,7 @@ function Sidebar() {
         <div className='menu' style={{ display: showMenu? "flex":"none"}}>
             <Link className="btn-sidebar" to="/inflatables">  Inflatables</Link>
             <Link className="btn-sidebar" to="/bookings">  Bookings</Link>
+            <Link className="btn-sidebar" to="/configuration">  <i className="bi bi-sliders"></i></Link>
         </div>
     </div>
   )

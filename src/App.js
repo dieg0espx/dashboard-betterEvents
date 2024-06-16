@@ -10,6 +10,7 @@ import Inflatables from './pages/Inflatables';
 import Calendar from './pages/Calendar';
 import Login from './pages/Login';
 import ProtectedRoutes from "./ProtectedRoutes";
+import Configuration from './pages/Configuration';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route index element={<Calendar />} />
               <Route path="/inflatables" element={<Inflatables />} />
               <Route path="/bookings" element={<Calendar />} />
+              <Route path="/configuration" element={<Configuration />} />
             {/* </Route> */}
             <Route path="/login" element={<Login />} />
           </Routes>
