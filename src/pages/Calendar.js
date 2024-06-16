@@ -267,17 +267,14 @@ function Calendar() {
       for(let i = 0; i < bookings.length; i ++){
         if(bookings[i].id === currentBooking.id){
           bookingName = bookings[i].name + ' ' + bookings[i].lastName;
-          bookingInflatableName = bookings[i].inflatables[0].inflatableName; // Assuming inflatableName exists in the first inflatable
-          bookingDates = bookings[i].inflatables[0].bookedDates; // Assuming bookedDates exists in the first inflatable
           break;
         }
       }
       
-      const confirmDelete = window.confirm("DO YOU WANT TO DELETE? \n Customer: " + bookingName + " \n Inflatable: " + bookingInflatableName + ' \n Dates: ' + bookingDates);
+      const confirmDelete = window.confirm("DO YOU WANT TO DELETE? \n Customer: " + bookingName );
       if(confirmDelete){
         await deleteDoc(doc(db, "bookings-test", currentBooking.id));
-        setShowCurrentBooking(false)
-        getBookings()
+        window.location.reload()
       } 
     }
     async function markAsPaid() {
@@ -298,7 +295,6 @@ function Calendar() {
       }
     }
     function closeBooking(){
-      // setShowCurrentBooking(false)
       window.location.reload()
     }
     
