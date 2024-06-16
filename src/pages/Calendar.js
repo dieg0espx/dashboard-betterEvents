@@ -17,16 +17,28 @@ function Calendar() {
     const [showCurrentBooking, setShowCurrentBooking]= useState(false)
     const [showNewReservation, setShowNewReservation] = useState(false)
 
-    // async function getBookings(){
+
+    // async function getBookings() {
     //   console.log('GETTING BOOKINGS ...');
     //   const querySnapshot = await getDocs(collection(db, 'bookings-test'));
     //   let arrayBookings = [];
-    //   let arrayEvents = []
-
+    //   let arrayEvents = [];
+    //   let idToColorMap = {}; 
+    
+    //   // Function to generate random colors
+    //   function getRandomColor() {
+    //     let r, g, b;
+    //     do {
+    //       r = Math.floor(Math.random() * 256);
+    //       g = Math.floor(Math.random() * 256);
+    //       b = Math.floor(Math.random() * 256);
+    //     } while ((r + g + b) > 600); // Sum threshold to avoid super bright colors
+    //     return `rgb(${r},${g},${b})`;
+    //   }
     //   querySnapshot.docs.map(async (doc) => {
-    //     let booking = doc.data()
-
-    //     // FETCHING CUTOMER + BOOKING + INFLATABLES
+    //     let booking = doc.data();
+    
+    //     // FETCHING CUSTOMER + BOOKING + INFLATABLES
     //     arrayBookings.push({
     //       id: doc.id,
     //       address: booking.address,
@@ -39,14 +51,14 @@ function Calendar() {
     //       specificTime: booking.specificTime,
     //       floorType: booking.floorType,
     //       created: booking.created,
-    //       damageWaiver: booking.balances.damageWaiver, 
+    //       damageWaiver: booking.balances.damageWaiver,
     //       deliveryAmount: booking.balances.deliveryAmount,
     //       deliveryFee: booking.balances.deliveryFee,
     //       deposit: booking.balances.deposit,
     //       insurance: booking.balances.insurance,
     //       rent: booking.balances.rent,
     //       tax: booking.balances.tax,
-    //       total: booking.balances.damageWaiver + booking.balances.deliveryAmount + booking.balances.deliveryFee + booking.balances.insurance +  booking.balances.rent +  booking.balances.tax, 
+    //       total: booking.balances.damageWaiver + booking.balances.deliveryAmount + booking.balances.deliveryFee + booking.balances.insurance + booking.balances.rent + booking.balances.tax - booking.balances.deposit,
     //       inflatables: booking.inflatables.map((inflatable) => ({
     //         bookedDates: inflatable.bookingDates ? [...inflatable.bookingDates] : [],
     //         inflatableID: inflatable.inflatableID,
@@ -54,33 +66,39 @@ function Calendar() {
     //         inflatableImage: inflatable.inflatableImage
     //       }))
     //     });
-        
+    
     //     // CREATING EVENT
-    //     for(let i = 0; i < booking.inflatables.length; i ++){
+    //     for (let i = 0; i < booking.inflatables.length; i++) {
     //       let inflatable = booking.inflatables[i];
+    
+    //       // Assign a consistent color for each ID
+    //       if (!idToColorMap[doc.id]) {
+    //         idToColorMap[doc.id] = getRandomColor();
+    //       }
+    
     //       arrayEvents.push({
-    //         title:booking.name + ' ' + booking.lastName  ,
+    //         title: booking.name + ' ' + booking.lastName,
     //         start: new Date(inflatable.bookingDates[0]),
-    //         end: new Date(inflatable.bookingDates[inflatable.bookingDates.length - 1]).setDate(new Date(inflatable.bookingDates[inflatable.bookingDates.length - 1]).getDate() + 1),
-    //         id:doc.id,
+    //         end: new Date(new Date(inflatable.bookingDates[inflatable.bookingDates.length - 1]).setDate(new Date(inflatable.bookingDates[inflatable.bookingDates.length - 1]).getDate() + 1)),
+    //         id: doc.id,
     //         extendedProps: {
-    //           subtitle:booking.inflatables[i].inflatableName,  
-    //           paid: booking.paid, 
-    //           background: getRandomColor()
+    //           subtitle: booking.inflatables[i].inflatableName,
+    //           paid: booking.paid,
+    //           background: idToColorMap[doc.id] // Use the consistent color from the mapping
     //         }
-    //       })
+    //       });
     //     }
-    //   })
-
-    //   setEvents(arrayEvents)
+    //   });
+    
+    //   setEvents(arrayEvents);
     //   setBookings(arrayBookings);
     // }
+
     async function getBookings() {
       console.log('GETTING BOOKINGS ...');
-      const querySnapshot = await getDocs(collection(db, 'bookings-test'));
       let arrayBookings = [];
       let arrayEvents = [];
-      let idToColorMap = {}; // Object to store the mapping of IDs to colors
+      let idToColorMap = {}; 
     
       // Function to generate random colors
       function getRandomColor() {
@@ -92,7 +110,8 @@ function Calendar() {
         } while ((r + g + b) > 600); // Sum threshold to avoid super bright colors
         return `rgb(${r},${g},${b})`;
       }
-    
+
+      const querySnapshot = await getDocs(collection(db, 'bookings-test'));
       querySnapshot.docs.map(async (doc) => {
         let booking = doc.data();
     
@@ -117,40 +136,74 @@ function Calendar() {
           rent: booking.balances.rent,
           tax: booking.balances.tax,
           total: booking.balances.damageWaiver + booking.balances.deliveryAmount + booking.balances.deliveryFee + booking.balances.insurance + booking.balances.rent + booking.balances.tax - booking.balances.deposit,
-          inflatables: booking.inflatables.map((inflatable) => ({
+          inflatables: booking.inflatables ? booking.inflatables.map((inflatable) => ({
             bookedDates: inflatable.bookingDates ? [...inflatable.bookingDates] : [],
             inflatableID: inflatable.inflatableID,
             inflatableName: inflatable.inflatableName,
             inflatableImage: inflatable.inflatableImage
-          }))
+          })) : [],
+          extras: booking.extras ? booking.extras.map((inflatable) => ({
+            bookedDates: inflatable.bookingDates ? [...inflatable.bookingDates] : [],
+            inflatableID: inflatable.inflatableID,
+            inflatableName: inflatable.inflatableName,
+            inflatableImage: inflatable.inflatableImage
+          })) : []
         });
     
         // CREATING EVENT
-        for (let i = 0; i < booking.inflatables.length; i++) {
-          let inflatable = booking.inflatables[i];
-    
-          // Assign a consistent color for each ID
-          if (!idToColorMap[doc.id]) {
-            idToColorMap[doc.id] = getRandomColor();
-          }
-    
-          arrayEvents.push({
-            title: booking.name + ' ' + booking.lastName,
-            start: new Date(inflatable.bookingDates[0]),
-            end: new Date(new Date(inflatable.bookingDates[inflatable.bookingDates.length - 1]).setDate(new Date(inflatable.bookingDates[inflatable.bookingDates.length - 1]).getDate() + 1)),
-            id: doc.id,
-            extendedProps: {
-              subtitle: booking.inflatables[i].inflatableName,
-              paid: booking.paid,
-              background: idToColorMap[doc.id] // Use the consistent color from the mapping
+
+        if(booking.inflatables) {
+          for (let i = 0; i < booking.inflatables.length; i++) {
+            let inflatable = booking.inflatables[i];
+          
+            // Assign a consistent color for each ID
+            if (!idToColorMap[doc.id]) {
+              idToColorMap[doc.id] = getRandomColor();
             }
-          });
+          
+            arrayEvents.push({
+              title: booking.name + ' ' + booking.lastName,
+              start: new Date(inflatable.bookingDates[0]),
+              end: new Date(new Date(inflatable.bookingDates[inflatable.bookingDates.length - 1]).setDate(new Date(inflatable.bookingDates[inflatable.bookingDates.length - 1]).getDate() + 1)),
+              id: doc.id,
+              extendedProps: {
+                subtitle: booking.inflatables[i].inflatableName,
+                paid: booking.paid,
+                background: idToColorMap[doc.id] // Use the consistent color from the mapping
+              }
+            });
+          }
         }
+
+        if(booking.extras) {
+          for (let i = 0; i < booking.extras.length; i++) {
+            let inflatable = booking.extras[i];
+      
+            // Assign a consistent color for each ID
+            if (!idToColorMap[doc.id]) {
+              idToColorMap[doc.id] = getRandomColor();
+            }
+      
+            arrayEvents.push({
+              title: booking.name + ' ' + booking.lastName,
+              start: new Date(inflatable.bookingDates[0]),
+              end: new Date(new Date(inflatable.bookingDates[inflatable.bookingDates.length - 1]).setDate(new Date(inflatable.bookingDates[inflatable.bookingDates.length - 1]).getDate() + 1)),
+              id: doc.id,
+              extendedProps: {
+                subtitle: booking.extras[i].inflatableName,
+                paid: booking.paid,
+                background: idToColorMap[doc.id] // Use the consistent color from the mapping
+              }
+            });
+          }
+        }
+        
       });
     
       setEvents(arrayEvents);
       setBookings(arrayBookings);
     }
+
     
     useEffect(()=>{
         getBookings()
@@ -162,11 +215,7 @@ function Calendar() {
         document.body.style.overflow = 'visible';
       }
     }, [showCurrentBooking, showNewReservation]);
-    
-    function getRandomColor() {
-      const getRandomComponent = () => Math.floor(Math.random() * 128 + 64).toString(16).padStart(2, '0');
-      return `#${getRandomComponent()}${getRandomComponent()}${getRandomComponent()}`;
-    }
+
     
     const eventContent = (eventInfo) => {
       return (
@@ -176,18 +225,7 @@ function Calendar() {
         </div>
       );
     };
-    function getInflatableName(id){
-      for(let i=0; i < bookings.length; i ++){
-        if(bookings[i].id == id){
-          return bookings[i].inflatableName
-        }
-      }
-    }
-    const formatDate = (inputDate) => {
-      const date = new Date(inputDate);
-      const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-      return date.toLocaleDateString(undefined, options)
-    };
+
     function handleEventClick(eventClickInfo) {
       const { event } = eventClickInfo;
       getCurrentBooking(event.id)
@@ -200,12 +238,6 @@ function Calendar() {
           // console.log(bookings[i].balances);
         }
       }
-    }
-    function strToDate(str){
-      const dateObject = new Date(str);
-      const options = {weekday:'short', year: 'numeric', month: 'long', day: 'numeric' };
-      const formattedDate = dateObject.toLocaleDateString('en-US', options);
-      return formattedDate
     }
     function formatCurrency(number) {
       // Ensure the input is a valid number
@@ -250,7 +282,7 @@ function Calendar() {
     }
     async function markAsPaid() {
       let currentId = currentBooking.id;
-      let alert = window.confirm('Do you want to mark as paid : \nCUSTOMER: ' + currentBooking.name + ' ' + currentBooking.lastName + '\nPRODUCT: ' + currentBooking.inflatableName + '\nID: ' + currentBooking.id);
+      let alert = window.confirm('Do you want to mark as paid : \nCUSTOMER: ' + currentBooking.name + ' ' + currentBooking.lastName + '\nID: ' + currentBooking.id);
       
       if (alert) {
         const bookingRef = doc(db, "bookings-test", currentBooking.id);
@@ -265,6 +297,10 @@ function Calendar() {
         setShowCurrentBooking(true);
       }
     }
+    function closeBooking(){
+      // setShowCurrentBooking(false)
+      window.location.reload()
+    }
     
 
   return (
@@ -275,7 +311,7 @@ function Calendar() {
         <div className='content'>
           <FullCalendar height={'auto'}  plugins={[dayGridPlugin]} initialView='dayGridMonth' eventClick={handleEventClick} events={events} eventContent={eventContent} />
           <div className={showCurrentBooking ? "booking-popup" : "closing-booking-popup"}>
-            <button id="btn-closePopup" onClick={()=>setShowCurrentBooking(false)}> <i className="bi bi-chevron-left"></i>   </button>
+            <button id="btn-closePopup" onClick={()=>closeBooking()}> <i className="bi bi-chevron-left"></i>   </button>
             <div className='main-grid'>
               <div id="left">
                 <h2> Customer Information </h2>
@@ -309,6 +345,20 @@ function Calendar() {
                      <img src={inflatable.inflatableImage} alt={inflatable.inflatableName} />
                       <div>
                         <p><b>Inflatable ID:</b> {inflatable.inflatableID}</p>
+                        <p><b>Inflatable Name:</b> {inflatable.inflatableName}</p>
+                        <p><b>Booked Dates:</b> {inflatable.bookedDates.join(' > ')}</p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p>No inflatables booked.</p>
+                )}
+                {currentBooking && currentBooking.extras ? (
+                  currentBooking.extras.map((inflatable, index) => (
+                    <div key={index} className="inflatable">
+                     <img src={inflatable.inflatableImage} alt={inflatable.inflatableName} />
+                      <div>
+                        <p><b>Extra ID:</b> {inflatable.inflatableID}</p>
                         <p><b>Inflatable Name:</b> {inflatable.inflatableName}</p>
                         <p><b>Booked Dates:</b> {inflatable.bookedDates.join(' > ')}</p>
                       </div>
