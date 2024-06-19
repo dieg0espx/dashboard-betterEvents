@@ -17,7 +17,7 @@ function Configuration() {
 
     async function toggleRequestBooking(status){
         setResquestBooking(status)
-        const configRef = doc(db, "configurations", "requestBooking");
+        const configRef = doc(db, "config", "requestBooking");
         await updateDoc(configRef, {
           status: status
         });
@@ -25,7 +25,7 @@ function Configuration() {
     }
 
     async function getRequestBooking() {
-        const docRef = doc(db, "configurations", "requestBooking");
+        const docRef = doc(db, "config", "requestBooking");
         const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
