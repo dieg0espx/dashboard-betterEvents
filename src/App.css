@@ -570,10 +570,19 @@
   font-size:13px !important;
 }
 .custom-event {
+  display: grid;
+  grid-template-columns: 35px auto;
+  gap: 10px;
+  align-items: center;
   color: white !important;
   /* margin-bottom: 2px; */
   margin-left: 5px;
   width: 100%;
+}
+
+.custom-event .iconApproved {
+  font-size: 30px;
+  margin-left: 5px;
 }
 .fc-event {
   background-color: transparent !important;
@@ -733,7 +742,7 @@
 .booking-popup .main-grid #right .grid-actions {
   display: flex;
   flex-direction: row;
-  gap: 50px;
+  gap: 10px;
   margin-top: 20px;
 }
 .booking-popup .main-grid #right button {
@@ -748,18 +757,25 @@
   color: white;
 }
 .booking-popup .main-grid #right #markPaid:hover{
+background-color: #08678d;
+}
+.booking-popup .main-grid #right #approve {
   background-color: white;
   color: #0089BF;
   border-color: #0089BF;
 }
+.booking-popup .main-grid #right #approve:hover{
+  background-color: #0089BF;
+  color: white;
+}
 .booking-popup .main-grid #right #delete {
-  background-color: #ffd8d8;
-  color: red;
+  color: gray;
+  width: fit-content;
+  background-color: transparent;
+  font-size: 20px;
 }
 .booking-popup .main-grid #right #delete:hover {
-  background-color: white;
   color: red;
-  border-color: red;
 }
 
 

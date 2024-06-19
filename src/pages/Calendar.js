@@ -126,6 +126,7 @@ function Calendar() {
           method: booking.method,
           paid: booking.paid,
           specificTime: booking.specificTime,
+          approved:booking.approved, 
           floorType: booking.floorType,
           created: booking.created,
           damageWaiver: booking.balances.damageWaiver,
@@ -169,7 +170,8 @@ function Calendar() {
               extendedProps: {
                 subtitle: booking.inflatables[i].inflatableName,
                 paid: booking.paid,
-                background: idToColorMap[doc.id] // Use the consistent color from the mapping
+                background: idToColorMap[doc.id], // Use the consistent color from the mapping
+                approved: booking.approved
               }
             });
           }
@@ -220,8 +222,13 @@ function Calendar() {
     const eventContent = (eventInfo) => {
       return (
         <div className="custom-event" style={{backgroundColor: eventInfo.event.extendedProps.background}}>
-          <div className="event-title">{eventInfo.event.title}</div>
-          <div className="event-content"> {eventInfo.event.extendedProps.subtitle} </div>
+          <div>
+            <i className={!eventInfo.event.extendedProps.paid  ? "bi bi-clock-history iconApproved" : "bi bi-check-circle iconApproved"}></i>
+          </div>
+          <div>
+            <div className="event-title">{eventInfo.event.title}</div>
+            <div className="event-content"> {eventInfo.event.extendedProps.subtitle} </div>
+          </div>
         </div>
       );
     };
@@ -296,6 +303,25 @@ function Calendar() {
     }
     function closeBooking(){
       window.location.reload()
+    }
+    async function approveBooking(){
+      let currentId = currentBooking.id;
+      let alert = window.confirm('Do you want to approve: \nCUSTOMER: ' + currentBooking.name + ' ' + currentBooking.lastName + '\nID: ' + currentBooking.id);
+      
+      if (alert) {
+        const bookingRef = doc(db, "bookings-test", currentBooking.id);
+        await updateDoc(bookingRef, {
+          approved: true
+        });
+        setCurrentBooking(prevBooking => ({
+          ...prevBooking,
+          approved: true
+        }));
+        getBookings();
+        setShowCurrentBooking(true);
+      }
+
+      // SEND CONFIRMATION MAIL 
     }
     
 
@@ -384,12 +410,9 @@ function Calendar() {
                 <h2> Actions </h2>
                 <div className='grid-actions'>
                   <button id="markPaid" onClick={()=>markAsPaid()} style={{display: currentBooking.paid ? 'none':'block'}}> Mark As Paid </button>
-                  <button id="delete" onClick={()=>deleteBooking()}> Delete Booking </button>
-                </div>
-
-
-
-
+                  <button id="approve" onClick={()=>approveBooking()} style={{display: currentBooking.approved == 'Waiting' ? "block":"none"}}> Approve Booking </button>
+                  <button id="delete" onClick={()=>deleteBooking()}> <i className="bi bi-trash"></i> </button>
+                </div> 
               </div>
             </div>
           </div>
