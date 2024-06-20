@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar'
 import { getFirestore } from 'firebase/firestore';
-import { collection, getDocs, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, deleteDoc, updateDoc, addDoc } from 'firebase/firestore';
 import { doc } from "firebase/firestore";
 import {app} from '../Firebase';
 import FullCalendar from '@fullcalendar/react';
@@ -317,11 +317,47 @@ function Calendar() {
           ...prevBooking,
           approved: true
         }));
-        getBookings();
+        await getBookings();
         setShowCurrentBooking(true);
       }
-
+      let invoiceId = await createInvoice();
       // SEND CONFIRMATION MAIL 
+      await sendApprovedConfirmation(invoiceId, currentBooking.id)
+    }
+
+    async function createInvoice(){
+      let invoiceData = {
+        data: {
+          address: currentBooking.address, 
+          bookingId: currentBooking.id, 
+          email: currentBooking.email, 
+          lastName: currentBooking.lastName, 
+          name: currentBooking.name, // Corrected this line
+          paid: false, 
+          phone: currentBooking.phone
+        },
+        bookingId: currentBooking.id
+      };
+      const docRef = await addDoc(collection(db, "invoices-test"), invoiceData);
+      return docRef.id
+    }
+    async function sendApprovedConfirmation(id, bookingId){
+      try {
+        let response = await fetch('https://better-stays-mailer.vercel.app/api/bebookingApproved', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({  
+              invoiceId:id, 
+              bookingId:bookingId
+            })
+        });
+  
+        return response.status == 200 ? true : false;
+      } catch (error) {
+          console.error('Error sending invoice:', error);
+          alert('Error sending invoice:', error)
+          throw error;
+      }
     }
     
 
@@ -381,7 +417,7 @@ function Calendar() {
                      <img src={inflatable.inflatableImage} alt={inflatable.inflatableName} />
                       <div>
                         <p><b>Extra ID:</b> {inflatable.inflatableID}</p>
-                        <p><b>Inflatable Name:</b> {inflatable.inflatableName}</p>
+                        <p><b>Extra Name:</b> {inflatable.inflatableName}</p>
                         <p><b>Booked Dates:</b> {inflatable.bookedDates.join(' > ')}</p>
                       </div>
                     </div>
