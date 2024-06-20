@@ -305,6 +305,7 @@ function Calendar() {
       window.location.reload()
     }
     async function approveBooking(){
+      console.log('APPROVING BOOKING ....');
       let currentId = currentBooking.id;
       let alert = window.confirm('Do you want to approve: \nCUSTOMER: ' + currentBooking.name + ' ' + currentBooking.lastName + '\nID: ' + currentBooking.id);
       
@@ -319,13 +320,14 @@ function Calendar() {
         }));
         await getBookings();
         setShowCurrentBooking(true);
+        let invoiceId = await createInvoice();
+        console.log(invoiceId);
+        await sendApprovedConfirmation(invoiceId, currentBooking.id)
       }
-      let invoiceId = await createInvoice();
-      // SEND CONFIRMATION MAIL 
-      await sendApprovedConfirmation(invoiceId, currentBooking.id)
     }
 
     async function createInvoice(){
+      console.log('CREATING INVOICE ... ');
       let invoiceData = {
         data: {
           address: currentBooking.address, 
@@ -342,6 +344,7 @@ function Calendar() {
       return docRef.id
     }
     async function sendApprovedConfirmation(id, bookingId){
+      console.log('SENDING APPROVED CONFIRMATION ... ');
       try {
         let response = await fetch('https://better-stays-mailer.vercel.app/api/bebookingApproved', {
             method: 'POST',
