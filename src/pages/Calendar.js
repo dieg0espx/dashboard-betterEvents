@@ -456,7 +456,7 @@ function Calendar() {
             </div>
           </div>
           <div className='overlay' onClick={()=>closeOverlay()} style={{display: showCurrentBooking || showNewReservation? "block":"none"}}></div>
-          <button className='btn-newReservation' onClick={()=>openNewReservation()}> + </button>
+          {/* <button className='btn-newReservation' onClick={()=>openNewReservation()}> + </button> */}
           <div style={{display: showNewReservation? "block":"none"}}>
             <PopupNewReservation />
           </div>
